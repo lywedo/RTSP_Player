@@ -3,24 +3,20 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+//    compileSdkVersion 26
     defaultConfig {
-        applicationId 'cn.com.buildwin.gosky'
+        applicationId "com.lam.imagekit"
         minSdkVersion 15
-        targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
-
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86"
-        }
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        flavorDimensions "versionCode"
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            jniDebuggable false
         }
     }
     productFlavors {
@@ -42,34 +38,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:support-v4:25.3.1'
-    // Third-party
-    compile 'com.github.vilyever:AndroidResource:1.2.0'
-    debugCompile(name:'socketclient-debug', ext:'aar')
-    releaseCompile(name:'socketclient-release', ext:'aar')
-
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    debugCompile(name:'kprogresshud-debug', ext:'aar')
-    releaseCompile(name:'kprogresshud-release', ext:'aar')
-    compile(name:'android-segmented-1.0.6', ext:'aar')
-    // For audio command recognition
-    compile project(':aars')
-    compile project(':models')
-
     // ijkplayer
     compile project(':ijkplayer-java')
-
     all32Compile project(':ijkplayer-armv5')
     all32Compile project(':ijkplayer-armv7a')
     all32Compile project(':ijkplayer-x86')
-
     all64Compile project(':ijkplayer-armv5')
     all64Compile project(':ijkplayer-armv7a')
     all64Compile project(':ijkplayer-arm64')
     all64Compile project(':ijkplayer-x86')
     all64Compile project(':ijkplayer-x86_64')
+    implementation files('libs/protobuf-java-2.6.1.jar')
 }

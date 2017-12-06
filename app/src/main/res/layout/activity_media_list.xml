@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="cn.com.buildwin.gosky.activities.MediaListActivity"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#12345678">
+        android:background="@color/main_color">
 
         <ImageButton
             android:id="@+id/media_back_button"
@@ -21,31 +20,82 @@
             android:src="@mipmap/back"
             android:padding="10dp"
             android:background="#00000000"/>
-
-        <Button
-            android:id="@+id/media_cancel_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:background="#00000000"
-            android:text="@string/media_list_cancel_button"
-            android:textAllCaps="false"
-            android:textColor="@color/LightSkyBlue"
-            android:visibility="invisible"/>
-
         <Button
             android:id="@+id/media_delete_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="#00000000"
+            android:visibility="gone"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimary"/>
+
+        <!--<Button-->
+            <!--android:id="@+id/media_cancel_button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:background="#00000000"-->
+            <!--android:text="@string/media_list_cancel_button"-->
+            <!--android:textAllCaps="false"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:visibility="invisible"/>-->
+        <ImageButton
+            android:id="@+id/media_select_button"
+            android:background="#00000000"
+            android:src="@mipmap/media_select"
+            android:padding="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"/>
+        <LinearLayout
+            android:id="@+id/ll_bar_control"
+            android:orientation="horizontal"
+            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:background="#00000000"
-            android:text="@string/media_list_delete_button"
-            android:textAllCaps="false"
-            android:textColor="@color/LightSkyBlue"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageButton
+                android:id="@+id/media_select_delect"
+                android:background="#00000000"
+                android:src="@mipmap/media_delete"
+                android:padding="12dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <ImageButton
+                android:id="@+id/media_select_all"
+                android:background="@drawable/button_selectall"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <ImageButton
+                android:id="@+id/media_select_cancel"
+                android:background="#00000000"
+                android:src="@mipmap/media_cancel"
+                android:padding="12dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+        </LinearLayout>
 
     </RelativeLayout>
+
 
     <ListView
         android:id="@+id/media_list_listView"

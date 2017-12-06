@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    tools:context="com.lam.imagekit.activities.CameraActivity">
+
+    <!--背景、视频播放界面、进度条-->
+    <FrameLayout
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true">-->
+
+        <com.lam.imagekit.wigets.media.IjkVideoView
+            android:id="@+id/video_view"
+            android:rotation="90"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <TableLayout
+            android:id="@+id/hud_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:background="#000"
+            android:padding="8dp"/>
+
+        <TextView
+            android:id="@+id/tv_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="50dp"
+            android:text="请连接到imagekit设备"
+            android:textColor="#fff"/>
+        <ImageView
+            android:id="@+id/iv_cafe"
+            android:layout_gravity="center"
+            android:src="@mipmap/cafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <!--<ProgressBar-->
+            <!--android:rotation="-90"-->
+            <!--android:visibility="gone"-->
+            <!--android:id="@+id/control_panel_progressBar"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"/>-->
+
+    </FrameLayout>
+    <!--录制时间-->
+    <Chronometer
+        android:id="@+id/control_panel_chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:visibility="gone"
+        android:textColor="#ff0000"
+        android:textSize="25sp"/>
+    <LinearLayout
+        android:id="@+id/ll_control"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/control_panel_take_photo_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:src="@drawable/button_photo"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <ImageButton
+                android:id="@+id/control_panel_record_video_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                android:src="@mipmap/con_video"/>
+
+
+        </RelativeLayout>
+
+
+        <ImageButton
+            android:id="@+id/control_panel_full_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:src="@drawable/button_full"/>
+        <ImageButton
+            android:id="@+id/control_panel_review_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:src="@drawable/button_media"/>
+        <ImageButton
+            android:id="@+id/control_panel_setting_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@drawable/button_extra_settings"/>
+    </LinearLayout>
+    <!--右侧一列按键-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/control_panel_right_menubar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:layout_alignRight="@+id/ll_control"
+        android:layout_above="@+id/ll_control"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/control_panel_rotate_screen_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@drawable/button_rotate_screen"/>
+        <ImageButton
+            android:id="@+id/control_panel_resolution_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@drawable/button_resolution"/>
+
+
+        <ImageButton
+            android:id="@+id/control_panel_light_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@drawable/button_light"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

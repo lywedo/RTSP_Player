@@ -3,12 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="Black">#000</color>
 
     <color name="list_view_checked_color">#CAE9FE</color>
     <color name="list_view_default_color">#FFFFFF</color>
 
-    <color name="delete_button_highlight_color">@color/Red</color>
-    <color name="delete_button_normal_color">@color/LightSkyBlue</color>
+    <color name="delete_button_highlight_color">@color/colorPrimary</color>
+    <color name="delete_button_normal_color">@color/colorPrimaryDark</color>
 
     <!--Activity-->
     <color name="main_theme_color">#0196FE</color>
@@ -34,5 +35,6 @@
     <color name="ijk_color_blue_900">#0D47A1</color>
 
     <color name="ijk_transparent_dark">#77000000</color>
+    <color name="main_color">#391b00</color>
 
 </resources>

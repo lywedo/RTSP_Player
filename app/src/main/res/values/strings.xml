@@ -1,78 +1,14 @@
 <resources>
-    <string name="app_name">GoSky</string>
-
-    <string name="main_help_button_contentDescription">Help</string>
-    <string name="main_setting_button_contentDescription">Setting</string>
-    <string name="main_play_button_contentDescription">Play</string>
-
-    <string name="help_back_button_contentDescription">Back</string>
-    <string name="help_prev_page_button">Previous Page</string>
-    <string name="help_next_page_button">Next Page</string>
-
-    <string name="setting_back_button_contentDescription">Back</string>
-    <string name="setting_first_header_title">FLIGHT ATTITUDE PARAMETERS</string>
-    <string name="setting_first_section_first_row_title">Parameters auto save</string>
-    <string name="setting_first_section_second_row_title">Reset the parameters</string>
-    <string name="setting_second_header_title">INTERFACE SETTINGS</string>
-    <string name="setting_second_section_first_row_title">Right hand mode</string>
-    <string name="setting_third_header_title">WIRELESS SETTINGS</string>
-    <string name="setting_third_section_first_row_title">Rename SSID</string>
-    <!---->
-    <string name="setting_alert_reset_parameter_success">Reset parameters success</string>
-
-    <string name="rename_ssid_cancel_button">Cancel</string>
-    <string name="rename_ssid_save_button">Save</string>
-    <string name="rename_ssid_current_ssid_textView">Current SSID</string>
-    <string name="rename_ssid_new_ssid_textView">New SSID</string>
-    <string name="rename_ssid_new_ssid_hint">Input new SSID here</string>
-    <string name="rename_ssid_text_filter">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_</string>
-    <string name="rename_ssid_notice_textView">Please use only “A&#8211;Z”, “a&#8211;z”, “0&#8211;9”, and “_”, and 24 characters at most</string>
-    <!---->
-    <string name="rename_hud_applying_change">Applying changes</string>
-    <string name="rename_hud_resetting_board">Resetting board</string>
-    <string name="rename_hud_collecting_information">Collecting information</string>
-    <string name="rename_alert_get_info_fail">Failed to get info</string>
-    <string name="rename_alert_set_ssid_fail">Failed to set SSID</string>
-    <string name="rename_alert_reset_fail">Failed to reset board</string>
-    <string name="rename_error_get_info">Error occurred while getting Info</string>
-    <string name="rename_error_set_ssid">Error occurred while setting SSID</string>
-    <string name="rename_error_reset">Error occurred while resetting board</string>
-    <string name="rename_message_box_reset_title">Notice</string>
-    <string name="rename_message_box_reset_message">Reset successfully.\r\nOpen WiFi settings page to connect to new SSID?</string>
-    <string name="rename_message_box_positive_title">Yes</string>
-    <string name="rename_message_box_negative_title">No</string>
-    <string name="rename_alert_change_another_ssid">Please type a different SSID with the current one</string>
-    <!---->
-    <string name="rename_message_box_notice_title">Notice</string>
-    <string name="rename_message_box_notice_message">Set SSID successfully.\r\nPlease turn the device off and on,\r\nthen wait half a minute to take effect.</string>
-    <string name="rename_message_box_notice_confirm_title">OK</string>
-    <string name="rename_message_box_notice2_title">Notice</string>
-    <string name="rename_message_box_notice2_message">Open WiFi settings page to connect to new SSID?</string>
-    <string name="rename_message_box_notice2_positive_title">Yes</string>
-    <string name="rename_message_box_notice2_negative_title">No</string>
-    <string name="rename_message_box_notice3_title">Notice</string>
-    <string name="rename_message_box_notice3_message">Cannot jump to WiFi settings page automaticlly, please open it manually to connect to new SSID.</string>
-    <string name="rename_message_box_notice3_confirm_title">OK</string>
-
-    <string name="control_panel_alert_save_photo_success">Photo is saved to&#160;</string>
+    <string name="app_name">ImageKit</string>
     <string name="control_panel_alert_save_photo_fail">Failed to save photo</string>
-    <string name="control_panel_alert_start_record_video">Start recording video</string>
-    <string name="control_panel_alert_record_video_success">Video is saved to&#160;</string>
-    <string name="control_panel_alert_record_video_fail">Failed to record video</string>
-    <string name="control_panel_alert_not_enough_disk_space">Not enough disk space, stop recording</string>
+    <string name="control_panel_alert_save_photo_success">Photo is saved to&#160;</string>
     <string name="control_panel_alert_write_video_file_error">Error occurred while Writing video file, stop recording.\r\nVideo is saved to&#160;</string>
-    <!---->
-    <string name="control_panel_alert_not_support_gyro">This phone don\'t support this feature</string>
-
-    <string name="control_panel_voice_guide">Voice Control: Forward, Backward, Left, Right, Takeoff, Landing</string>
-
+    <string name="control_panel_alert_record_video_success">Video is saved to&#160;</string>
     <string name="control_panel_insufficient_storage_alert">Insufficient storage(%.2fMB), cannot start recording video</string>
-
-    <string name="media_list_empty_list">Media directory is empty or not exist</string>
     <string name="media_list_delete_button">Delete</string>
     <string name="media_list_cancel_button">Cancel</string>
-    <string name="media_list_delete_button_highlight_format">Delete(%d)</string>
-
+    <string name="media_list_delete_button_highlight_format">(%d)</string>
+    <string name="media_list_empty_list">Media directory is empty or not exist</string>
     <!-- ijk -->
     <string name="N_A">N/A</string>
     <string name="close">Close</string>

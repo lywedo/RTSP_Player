@@ -11,7 +11,7 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/White"
+        android:textColor="#fff"
         android:textSize="12sp" />
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
-        android:textColor="@color/White"
+        android:textColor="#fff"
         android:textSize="12sp" />
 
 </TableRow>
