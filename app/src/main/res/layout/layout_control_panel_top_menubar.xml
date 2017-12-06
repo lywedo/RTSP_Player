@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/control_panel_take_photo_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@drawable/button_photo"/>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <ImageButton
+            android:id="@+id/control_panel_record_video_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@mipmap/con_video"/>
+
+        <!--录制时间-->
+        <Chronometer
+            android:id="@+id/control_panel_chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/control_panel_record_video_button"
+            android:textColor="#ff0000"
+            android:textSize="15sp"/>
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/control_panel_review_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@drawable/button_media"/>
+
+    <ImageButton
+        android:id="@+id/control_panel_limit_speed_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@drawable/button_speed_30"/>
+
+    <ImageButton
+        android:id="@+id/control_panel_limit_hight_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@mipmap/con_altitude_hold"/>
+
+    <ImageButton
+        android:id="@+id/control_panel_gravity_control_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@mipmap/con_gravity_control"/>
+
+    <ImageButton
+        android:id="@+id/control_panel_switch_button"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:src="@mipmap/con_off"/>
+
+</LinearLayout>

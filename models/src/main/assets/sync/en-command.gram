@@ -1,0 +1,10 @@
+#JSGF V1.0;
+
+grammar command;
+
+public <item> = forward    |
+                          backward    |
+                          left    |
+                          right    |
+                          takeoff    |
+                          landing;

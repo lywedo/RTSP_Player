@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+    <!--旋转-->
+    <ImageButton
+        android:id="@+id/control_panel_rotate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="2dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/con_rotate"
+        android:background="#00000000"/>
+
+    <!--固定方向旋转-->
+    <!--<ImageButton-->
+        <!--android:id="@+id/control_panel_fixed_direction_rotate_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="2dp"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:src="@mipmap/con_rotate_direction"-->
+        <!--android:background="#00000000"/>-->
+
+</LinearLayout>

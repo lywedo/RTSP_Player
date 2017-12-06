@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="cn.com.buildwin.gosky.activities.MediaListActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#12345678">
+
+        <ImageButton
+            android:id="@+id/media_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/back"
+            android:padding="10dp"
+            android:background="#00000000"/>
+
+        <Button
+            android:id="@+id/media_cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:background="#00000000"
+            android:text="@string/media_list_cancel_button"
+            android:textAllCaps="false"
+            android:textColor="@color/LightSkyBlue"
+            android:visibility="invisible"/>
+
+        <Button
+            android:id="@+id/media_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:background="#00000000"
+            android:text="@string/media_list_delete_button"
+            android:textAllCaps="false"
+            android:textColor="@color/LightSkyBlue"/>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/media_list_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

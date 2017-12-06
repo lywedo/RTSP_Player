@@ -1,0 +1,45 @@
+Language model created by QuickLM on 2017年 4月11日 星期二 17时22分45秒 CST
+Copyright (c) 1996-2002
+Carnegie Mellon University and Alexander I. Rudnicky
+
+This model based on a corpus of 6 sentences and 8 words
+The (fixed) discount mass is 0.5
+
+\data\
+ngram 1=8
+ngram 2=12
+ngram 3=6
+
+\1-grams:
+-0.7782 </s> -0.3010
+-0.7782 <s> -0.2218
+-1.5563 backward -0.2218
+-1.5563 forward -0.2218
+-1.5563 landing -0.2218
+-1.5563 left -0.2218
+-1.5563 right -0.2218
+-1.5563 takeoff -0.2218
+
+\2-grams:
+-1.0792 <s> backward 0.0000
+-1.0792 <s> forward 0.0000
+-1.0792 <s> landing 0.0000
+-1.0792 <s> left 0.0000
+-1.0792 <s> right 0.0000
+-1.0792 <s> takeoff 0.0000
+-0.3010 backward </s> -0.3010
+-0.3010 forward </s> -0.3010
+-0.3010 landing </s> -0.3010
+-0.3010 left </s> -0.3010
+-0.3010 right </s> -0.3010
+-0.3010 takeoff </s> -0.3010
+
+\3-grams:
+-0.3010 <s> backward </s>
+-0.3010 <s> forward </s>
+-0.3010 <s> landing </s>
+-0.3010 <s> left </s>
+-0.3010 <s> right </s>
+-0.3010 <s> takeoff </s>
+
+\end\

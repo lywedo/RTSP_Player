@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/help_fragmentContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.com.buildwin.gosky.activities.HelpActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/help_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ImageButton
+        android:id="@+id/help_backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/back"
+        android:padding="10dp"
+        android:layout_gravity="top|left"
+        android:background="#00000000"
+        android:contentDescription="@string/help_back_button_contentDescription"/>
+
+    <ImageButton
+        android:id="@+id/help_prev_pageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/left"
+        android:padding="4dp"
+        android:layout_gravity="center_vertical|left"
+        android:background="#00000000"
+        android:contentDescription="@string/help_prev_page_button"/>
+
+    <ImageButton
+        android:id="@+id/help_next_pageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/right"
+        android:padding="4dp"
+        android:layout_gravity="center_vertical|right"
+        android:background="#00000000"
+        android:contentDescription="@string/help_next_page_button"/>
+
+</FrameLayout>

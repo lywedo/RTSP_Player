@@ -1,0 +1,10 @@
+#JSGF V1.0;
+
+grammar command;
+
+public <item> = 前进    |
+                                         后退    |
+                                         左侧飞    |
+                                         右侧飞    |
+                                         起飞    |
+                                         降落;
