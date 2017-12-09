@@ -23,7 +23,7 @@
     <color name="black_overlay">#66000000</color>
 
     <color name="ijk_color_blue_main">@color/ijk_color_blue_500</color>
-    <color name="ijk_color_blue_50">#E3F2FD</color>
+    <color name="ijk_color_blue_50">#e3f2fd</color>
     <color name="ijk_color_blue_100">#BBDEFB</color>
     <color name="ijk_color_blue_200">#90CAF9</color>
     <color name="ijk_color_blue_300">#64B5F6</color>
@@ -35,6 +35,6 @@
     <color name="ijk_color_blue_900">#0D47A1</color>
 
     <color name="ijk_transparent_dark">#77000000</color>
-    <color name="main_color">#391b00</color>
+    <color name="main_color">#391b39</color>
 
 </resources>

@@ -988,6 +988,14 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         return rotation180;
     }
 
+    public void setVideoRotation(int rotation) throws IllegalStateException{
+        //if (mMediaPlayer != null && mMediaPlayer.setVideoRotation(rotation)) {
+           // this.rotation180 = !this.rotation180;
+       // }
+        mVideoRotationDegree = rotation;
+        if (mRenderView != null)
+            mRenderView.setVideoRotation(rotation);
+    }
     public void setRotation180(boolean rotation180) throws IllegalStateException {
         if (mMediaPlayer != null && mMediaPlayer.setRotation180(rotation180))
             this.rotation180 = !this.rotation180;
@@ -1009,12 +1017,12 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     //-------------------------
 
     private static final int[] s_allAspectRatio = {
-            IRenderView.AR_ASPECT_FIT_PARENT,
-            IRenderView.AR_ASPECT_FILL_PARENT,
-            IRenderView.AR_ASPECT_WRAP_CONTENT,
-             IRenderView.AR_MATCH_PARENT,
-            IRenderView.AR_16_9_FIT_PARENT,
-            IRenderView.AR_4_3_FIT_PARENT,
+        IRenderView.AR_ASPECT_FIT_PARENT,
+        IRenderView.AR_ASPECT_FILL_PARENT,
+        IRenderView.AR_ASPECT_WRAP_CONTENT,
+        IRenderView.AR_MATCH_PARENT,
+        IRenderView.AR_16_9_FIT_PARENT,
+        IRenderView.AR_4_3_FIT_PARENT,
     };
     private int mCurrentAspectRatioIndex = 0;
     private int mCurrentAspectRatio = s_allAspectRatio[5];

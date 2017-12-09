@@ -216,6 +216,11 @@ public class AndroidMediaPlayer extends AbstractMediaPlayer {
     }
 
     @Override
+    public boolean setVideoRotation(int rotation) throws IllegalStateException {
+        return false;
+    }
+
+    @Override
     public void setTexcoordRect(float left, float top, float right, float bottom)
             throws IllegalStateException {
         // Do nothing

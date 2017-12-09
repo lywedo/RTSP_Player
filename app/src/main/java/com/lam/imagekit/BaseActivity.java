@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.lam.imagekit.application.Constants;
+
 /**
  * Created by Lam on 2017/11/23.
  */

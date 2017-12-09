@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.lam.widget.wigets.media;
+package com.lam.imagekit.widget.media;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -112,6 +112,7 @@ public class TextureRenderView extends TextureView implements IRenderView {
     public void setVideoRotation(int degree) {
         mMeasureHelper.setVideoRotation(degree);
         setRotation(degree);
+        setAspectRatio(mMeasureHelper.getAspectRatio());
     }
 
     @Override

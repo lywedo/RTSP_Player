@@ -39,14 +39,14 @@ import android.widget.TextView;
 import com.lam.imagekit.R;
 import com.lam.imagekit.fragments.TracksFragment;
 import com.lam.imagekit.utils.RecentMediaStorage;
-import com.lam.imagekit.wigets.media.AndroidMediaController;
-import com.lam.imagekit.wigets.media.IjkVideoView;
+import com.lam.imagekit.widget.media.AndroidMediaController;
+import com.lam.imagekit.widget.media.IjkVideoView;
 
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.misc.ITrackInfo;
 
-import static com.lam.imagekit.wigets.media.IRenderView.AR_ASPECT_FIT_PARENT;
-import static com.lam.imagekit.wigets.media.IjkVideoView.RENDER_TEXTURE_VIEW;
+import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FIT_PARENT;
+import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
 
 
 public class VideoActivity extends AppCompatActivity implements TracksFragment.ITrackHolder {

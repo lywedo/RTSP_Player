@@ -1,4 +1,4 @@
-package cn.com.buildwin.gosky.application;
+package com.lam.imagekit.application;
 
 import android.content.Context;
 import android.content.SharedPreferences;

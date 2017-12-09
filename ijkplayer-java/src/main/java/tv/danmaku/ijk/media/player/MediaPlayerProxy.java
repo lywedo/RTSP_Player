@@ -140,6 +140,11 @@ public class MediaPlayerProxy implements IMediaPlayer {
     }
 
     @Override
+    public boolean setVideoRotation(int rotation) throws IllegalStateException {
+        return mBackEndMediaPlayer.setVideoRotation(rotation);
+    }
+
+    @Override
     public void setTexcoordRect(float left, float top, float right, float bottom)
             throws IllegalStateException {
         mBackEndMediaPlayer.setTexcoordRect(left, top, right, bottom);

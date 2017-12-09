@@ -601,6 +601,12 @@ public final class IjkMediaPlayer extends AbstractMediaPlayer {
         return _setRotation180(rotation180);
     }
 
+	@Override
+    public boolean setVideoRotation(int rotation) throws IllegalStateException {
+        return _setVideoRotation(rotation);
+    }
+	
+	private native boolean _setVideoRotation(int rotation) throws IllegalStateException;
     private native boolean _setRotation180(boolean rotation180) throws IllegalStateException;
 
     @Override

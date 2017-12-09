@@ -1,3 +1,5 @@
 /.gradle
 /.idea
 /models/build
+/build
+/app/build

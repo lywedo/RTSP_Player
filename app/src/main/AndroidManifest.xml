@@ -11,8 +11,6 @@
     <!-- OpenGL ES 2.0 -->
     <uses-feature android:glEsVersion="0x00020000" />
 
-    <uses-sdk tools:overrideLibrary="com.vilyever.socketclient, com.vilyever.resource"/>
-
     <application
         android:name=".AppContext"
         android:allowBackup="true"

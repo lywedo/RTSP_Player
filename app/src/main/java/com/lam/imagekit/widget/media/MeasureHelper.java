@@ -72,20 +72,25 @@ public final class MeasureHelper {
      * @param heightMeasureSpec
      */
     public void doMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int videoWidth = mVideoWidth;
+        int videoHeight = mVideoHeight;
         //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "
         //        + MeasureSpec.toString(heightMeasureSpec) + ")");
         if (mVideoRotationDegree == 90 || mVideoRotationDegree == 270) {
             int tempSpec = widthMeasureSpec;
             widthMeasureSpec  = heightMeasureSpec;
             heightMeasureSpec = tempSpec;
+//            int tempSpec = videoWidth;
+//            videoWidth  = videoHeight;
+//            videoHeight = tempSpec;
         }
 
-        int width = View.getDefaultSize(mVideoWidth, widthMeasureSpec);
-        int height = View.getDefaultSize(mVideoHeight, heightMeasureSpec);
+        int width = View.getDefaultSize(videoWidth, widthMeasureSpec);
+        int height = View.getDefaultSize(videoHeight, heightMeasureSpec);
         if (mCurrentAspectRatio == IRenderView.AR_MATCH_PARENT) {
             width = widthMeasureSpec;
             height = heightMeasureSpec;
-        } else if (mVideoWidth > 0 && mVideoHeight > 0) {
+        } else if (videoWidth > 0 && videoHeight > 0) {
             int widthSpecMode = View.MeasureSpec.getMode(widthMeasureSpec);
             int widthSpecSize = View.MeasureSpec.getSize(widthMeasureSpec);
             int heightSpecMode = View.MeasureSpec.getMode(heightMeasureSpec);
@@ -109,7 +114,7 @@ public final class MeasureHelper {
                     case IRenderView.AR_ASPECT_FILL_PARENT:
                     case IRenderView.AR_ASPECT_WRAP_CONTENT:
                     default:
-                        displayAspectRatio = (float) mVideoWidth / (float) mVideoHeight;
+                        displayAspectRatio = (float) videoWidth / (float) videoHeight;
                         if (mVideoSarNum > 0 && mVideoSarDen > 0)
                             displayAspectRatio = displayAspectRatio * mVideoSarNum / mVideoSarDen;
                         break;
@@ -145,11 +150,11 @@ public final class MeasureHelper {
                     default:
                         if (shouldBeWider) {
                             // too wide, fix width
-                            width = Math.min(mVideoWidth, widthSpecSize);
+                            width = Math.min(videoWidth, widthSpecSize);
                             height = (int) (width / displayAspectRatio);
                         } else {
                             // too high, fix height
-                            height = Math.min(mVideoHeight, heightSpecSize);
+                            height = Math.min(videoHeight, heightSpecSize);
                             width = (int) (height * displayAspectRatio);
                         }
                         break;
@@ -160,17 +165,17 @@ public final class MeasureHelper {
                 height = heightSpecSize;
 
                 // for compatibility, we adjust size based on aspect ratio
-                if (mVideoWidth * height < width * mVideoHeight) {
+                if (videoWidth * height < width * videoHeight) {
                     //Log.i("@@@", "image too wide, correcting");
-                    width = height * mVideoWidth / mVideoHeight;
-                } else if (mVideoWidth * height > width * mVideoHeight) {
+                    width = height * videoWidth / videoHeight;
+                } else if (videoWidth * height > width * videoHeight) {
                     //Log.i("@@@", "image too tall, correcting");
-                    height = width * mVideoHeight / mVideoWidth;
+                    height = width * videoHeight / videoWidth;
                 }
             } else if (widthSpecMode == View.MeasureSpec.EXACTLY) {
                 // only the width is fixed, adjust the height to match aspect ratio if possible
                 width = widthSpecSize;
-                height = width * mVideoHeight / mVideoWidth;
+                height = width * videoHeight / videoWidth;
                 if (heightSpecMode == View.MeasureSpec.AT_MOST && height > heightSpecSize) {
                     // couldn't match aspect ratio within the constraints
                     height = heightSpecSize;
@@ -178,24 +183,24 @@ public final class MeasureHelper {
             } else if (heightSpecMode == View.MeasureSpec.EXACTLY) {
                 // only the height is fixed, adjust the width to match aspect ratio if possible
                 height = heightSpecSize;
-                width = height * mVideoWidth / mVideoHeight;
+                width = height * videoWidth / videoHeight;
                 if (widthSpecMode == View.MeasureSpec.AT_MOST && width > widthSpecSize) {
                     // couldn't match aspect ratio within the constraints
                     width = widthSpecSize;
                 }
             } else {
                 // neither the width nor the height are fixed, try to use actual video size
-                width = mVideoWidth;
-                height = mVideoHeight;
+                width = videoWidth;
+                height = videoHeight;
                 if (heightSpecMode == View.MeasureSpec.AT_MOST && height > heightSpecSize) {
                     // too tall, decrease both width and height
                     height = heightSpecSize;
-                    width = height * mVideoWidth / mVideoHeight;
+                    width = height * videoWidth / videoHeight;
                 }
                 if (widthSpecMode == View.MeasureSpec.AT_MOST && width > widthSpecSize) {
                     // too wide, decrease both width and height
                     width = widthSpecSize;
-                    height = width * mVideoHeight / mVideoWidth;
+                    height = width * videoHeight / videoWidth;
                 }
             }
         } else {
@@ -217,7 +222,9 @@ public final class MeasureHelper {
     public void setAspectRatio(int aspectRatio) {
         mCurrentAspectRatio = aspectRatio;
     }
-
+    public int getAspectRatio() {
+        return mCurrentAspectRatio;
+    }
     @NonNull
     public static String getAspectRatioText(Context context, int aspectRatio) {
         String text;

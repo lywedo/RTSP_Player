@@ -99,6 +99,7 @@ public interface IMediaPlayer {
     boolean setVrMode(boolean vrMode) throws IllegalStateException;
 
     boolean setRotation180(boolean rotation180) throws IllegalStateException;
+    boolean setVideoRotation(int rotation) throws IllegalStateException;
 
     void setTexcoordRect(float left, float top, float right, float bottom)
             throws IllegalStateException;

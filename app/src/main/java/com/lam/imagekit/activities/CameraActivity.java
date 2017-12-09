@@ -2,7 +2,6 @@ package com.lam.imagekit.activities;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -14,16 +13,13 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Chronometer;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,15 +29,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lam.imagekit.BaseActivity;
-import com.lam.imagekit.Constants;
 import com.lam.imagekit.R;
+import com.lam.imagekit.application.Constants;
 import com.lam.imagekit.utils.AppManager;
 import com.lam.imagekit.utils.CameraBroadCtrlHelper;
 import com.lam.imagekit.utils.ConnectUtils;
 import com.lam.imagekit.utils.Utilities;
-import com.lam.imagekit.wigets.freespacemonitor.FreeSpaceMonitor;
-import com.lam.imagekit.wigets.media.IRenderView;
-import com.lam.imagekit.wigets.media.IjkVideoView;
+import com.lam.imagekit.widget.freespacemonitor.FreeSpaceMonitor;
+import com.lam.imagekit.widget.media.IRenderView;
+import com.lam.imagekit.widget.media.IjkVideoView;
 
 import java.io.File;
 import java.util.Arrays;
@@ -51,11 +47,10 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.lam.imagekit.Constants.CODE_WRITE_EXTERNAL_STORAGE;
-import static com.lam.imagekit.wigets.media.IRenderView.AR_ASPECT_FILL_PARENT;
-import static com.lam.imagekit.wigets.media.IRenderView.AR_MATCH_PARENT;
-import static com.lam.imagekit.wigets.media.IjkVideoView.RENDER_TEXTURE_VIEW;
-import static com.lam.imagekit.wigets.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
+import static com.lam.imagekit.application.Constants.CODE_WRITE_EXTERNAL_STORAGE;
+import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
+import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
+import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
 
 public class CameraActivity extends BaseActivity {
     private static final String TAG = "CamereActivity";
@@ -147,6 +142,18 @@ public class CameraActivity extends BaseActivity {
         // 开启屏幕常亮
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        mVideoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
+            @Override
+            public boolean onInfo(IMediaPlayer mp, int what, int extra) {
+                switch (what) {
+                    case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
+                        rotate90();
+                        break;
+                    default:
+                }
+                return false;
+            }
+        });
         mVideoView.setRender(VIDEO_VIEW_RENDER);
         mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT );
         isFull = false;
@@ -165,7 +172,7 @@ public class CameraActivity extends BaseActivity {
         IjkMediaPlayer.native_profileBegin("libijkplayer.so");
         mVideoView.setRtpJpegParsePacketMethod(RTP_JPEG_PARSE_PACKET_METHOD);
         mVideoView.setRender(VIDEO_VIEW_RENDER);
-        mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
+        //mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         mVideoView.setHudView(mHudView);
         mVideoView.setOnPreparedListener(new IMediaPlayer.OnPreparedListener() {
             @Override
@@ -326,6 +333,12 @@ public class CameraActivity extends BaseActivity {
         });
     }
     boolean isFull = false;
+    private int rotatoin = 0;
+    private void rotate90(){
+        rotatoin += 90;
+        rotatoin %= 360;
+        mVideoView.setVideoRotation(rotatoin);
+    }
     private void initViews() {
         /**
          * 录像计时器
@@ -349,6 +362,7 @@ public class CameraActivity extends BaseActivity {
         mFull.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isFull = !isFull;
                 fullScreen(isFull);
             }
         });
@@ -401,11 +415,7 @@ public class CameraActivity extends BaseActivity {
         mRotate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!mVideoView.isRotation180()){
-                    mVideoView.setRotation180(true);
-                }else {
-                    mVideoView.setRotation180(false);
-                }
+                rotate90();
             }
         });
     }
@@ -443,7 +453,7 @@ public class CameraActivity extends BaseActivity {
             @Override
             public void run() {
                 mVideoView.setRender(VIDEO_VIEW_RENDER);
-                mVideoView.setAspectRatio(IRenderView.AR_4_3_FIT_PARENT);
+                //mVideoView.setAspectRatio(IRenderView.AR_4_3_FIT_PARENT);
                 mVideoView.setVideoPath(mVideoPath);
                 mVideoView.start();
             }
@@ -489,17 +499,10 @@ public class CameraActivity extends BaseActivity {
         if (visible) {
             isButtonsVisible = true;
             mControl.setVisibility(View.VISIBLE);
-//            mControlRight.setVisibility(View.VISIBLE);
-//            mBackButton.setVisibility(View.VISIBLE);
-//            mTopMenuBar.setVisibility(View.VISIBLE);
-//            mRightMenuBar.setVisibility(View.VISIBLE);
         } else {
             isButtonsVisible = false;
             mControl.setVisibility(View.INVISIBLE);
             mControlRight.setVisibility(View.INVISIBLE);
-//            mBackButton.setVisibility(View.INVISIBLE);
-//            mTopMenuBar.setVisibility(View.INVISIBLE);
-//            mRightMenuBar.setVisibility(View.INVISIBLE);
         }
     }
     /**
@@ -540,26 +543,31 @@ public class CameraActivity extends BaseActivity {
     }
 
     private void fullScreen(boolean isFull){
-        if (mScaleY < 0 && mScaleX < 0){
-            initDisplayMetrics();
+        if(isFull) {
+            mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT);
+        }else{
+            mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         }
-        if (!isFull){
-            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", 1f, mScaleX);
-            animatorx.start();
-            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", 1f, mScaleY);
-            animatory.start();
-            mVideoView.setScaleX(mScaleX);
-            mVideoView.setScaleY(mScaleY);
-            this.isFull = true;
-        }else {
-            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", mScaleX, 1f);
-            animatorx.start();
-            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", mScaleY, 1f);
-            animatory.start();
-            mVideoView.setScaleX(mScaleX);
-            mVideoView.setScaleY(mScaleY);
-            this.isFull = false;
-        }
+//        if (mScaleY < 0 && mScaleX < 0){
+//            initDisplayMetrics();
+//        }
+//        if (!isFull){
+//            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", 1f, mScaleX);
+//            animatorx.start();
+//            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", 1f, mScaleY);
+//            animatory.start();
+//            mVideoView.setScaleX(mScaleX);
+//            mVideoView.setScaleY(mScaleY);
+//            this.isFull = true;
+//        }else {
+//            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", mScaleX, 1f);
+//            animatorx.start();
+//            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", mScaleY, 1f);
+//            animatory.start();
+//            mVideoView.setScaleX(mScaleX);
+//            mVideoView.setScaleY(mScaleY);
+//            this.isFull = false;
+//        }
     }
 
     private void sendUDP(final String message){

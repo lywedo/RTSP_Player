@@ -6,4 +6,4 @@ include ':ijkplayer-x86_64'
 
 include ':ijkplayer-java'
 
-include ':app', ':aars', ':models'
+include ':app'

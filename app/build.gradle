@@ -18,23 +18,15 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            jniDebuggable true
+        }
     }
     productFlavors {
         all32 { minSdkVersion 14 }
         all64 { minSdkVersion 21 }
     }
-
-    // Rename
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                // Rename APK here
-                def fileName = "GoSky-${defaultConfig.versionName}.apk"
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
-        }
-    }
+    buildToolsVersion '26.0.2'
 }
 
 dependencies {
