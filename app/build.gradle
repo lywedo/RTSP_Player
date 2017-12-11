@@ -13,6 +13,22 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
     }
+
+    signingConfigs {
+        release {
+            keyAlias 'ftr'
+            keyPassword 'ftr-1234'
+            storeFile file('../FTR_WifiVideo.jks')
+            storePassword 'ftr-1234'
+        }
+
+        debug {
+            keyAlias 'ftr'
+            keyPassword 'ftr-1234'
+            storeFile file('../FTR_WifiVideo.jks')
+            storePassword 'ftr-1234'
+        }
+    }
     buildTypes {
         release {
             minifyEnabled true

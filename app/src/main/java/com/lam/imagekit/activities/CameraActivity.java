@@ -50,6 +50,7 @@ import static android.view.View.VISIBLE;
 import static com.lam.imagekit.application.Constants.CODE_WRITE_EXTERNAL_STORAGE;
 import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
 import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
+import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_DROP;
 import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
 
 public class CameraActivity extends BaseActivity {
@@ -147,7 +148,8 @@ public class CameraActivity extends BaseActivity {
             public boolean onInfo(IMediaPlayer mp, int what, int extra) {
                 switch (what) {
                     case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
-                        rotate90();
+                        rotatoin = 90;
+                        mVideoView.setVideoRotation(rotatoin);
                         break;
                     default:
                 }
@@ -299,9 +301,10 @@ public class CameraActivity extends BaseActivity {
         mVideoView.setOnCompletionListener(new IMediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(IMediaPlayer mp) {
-                mVideoView.stopPlayback();
-                mVideoView.release(true);
-                mVideoView.stopBackgroundPlay();
+                stopAndRestartPlayback();
+//                mVideoView.stopPlayback();
+//                mVideoView.release(true);
+//                mVideoView.stopBackgroundPlay();
             }
         });
         if (mVideoPath != null)
