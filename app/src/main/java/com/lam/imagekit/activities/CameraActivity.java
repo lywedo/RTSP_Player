@@ -574,28 +574,28 @@ public class CameraActivity extends BaseActivity {
     }
 
     private void sendUDP(final String message){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (;;) {
-                    ConnectUtils utils = null;
-                    try {
-                        utils = ConnectUtils.getInstance();
-                        utils.setTimeOut(5000);// 设置超时为5s
-                        // 向服务器发数据
-                        utils.send(Constants.SERVER_ADDRESS, Constants.SERVER_PORT, message.getBytes());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-//                try {
-//                    ConnectUtils.getInstance().close();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                for (;;) {
+//                    ConnectUtils utils = null;
+//                    try {
+//                        utils = ConnectUtils.getInstance();
+//                        utils.setTimeOut(5000);// 设置超时为5s
+//                        // 向服务器发数据
+//                        utils.send(Constants.SERVER_ADDRESS, Constants.SERVER_PORT, message.getBytes());
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
 //                }
-
-            }
-        }).start();
+////                try {
+////                    ConnectUtils.getInstance().close();
+////                } catch (Exception e) {
+////                    e.printStackTrace();
+////                }
+//
+//            }
+//        }).start();
     }
     private int backPressedTimes = 0;
     @Override
