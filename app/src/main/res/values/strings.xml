@@ -77,16 +77,16 @@
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
 
-    <string name="isRecording">����¼��</string>
-    <string name="back_button_press">�ٰ�һ���˳�����</string>
-    <string name="before_preview_word">�����ӵ�imagekit�豸</string>
-    <string name="something_err">�ܱ�Ǹ,��������쳣,�����˳�.</string>
-    <string name="Reminder">��ܰ��ʾ</string>
-    <string name="send_err">ϵͳ��⵽�ϴ��쳣�˳����Ƿ��ͱ���,��Ҫ������������</string>
-    <string name="send">����</string>
-    <string name="no_send">������</string>
-    <string name="cancle">ȡ��</string>
-    <string name="select">ѡ��</string>
+    <string name="isRecording">正在录像</string>
+    <string name="back_button_press">再按一次退出程序</string>
+    <string name="before_preview_word">请连接到imagekit设备</string>
+    <string name="something_err">很抱歉,程序出现异常,即将退出.</string>
+    <string name="Reminder">温馨提示</string>
+    <string name="send_err">系统检测到上次异常退出，是否发送报告,需要连接至互联网</string>
+    <string name="send">发送</string>
+    <string name="no_send">不发送</string>
+    <string name="cancle">取消</string>
+    <string name="select">选择</string>
     <string name="setting_back_button_contentDescription">Back</string>
 
 </resources>
