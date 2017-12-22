@@ -30,7 +30,29 @@
 -keepclasseswithmembernames class * {
     @butterknife.* <methods>;
 }
+-keep class com.tencent.** {*;}
+
+# Bugly
+-dontwarn com.tencent.bugly.**
+-keep class com.tencent.bugly.** {*;}
+
 -keep class tv.danmaku.ijk.media.**{*;}
+
+# support-v7
+-dontwarn android.support.v7.**
+-keep class android.support.v7.internal.** { *; }
+-keep interface android.support.v7.internal.** { *; }
+-keep class android.support.v7.** { *; }
+
+# support design
+
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }
+
+
+-keep class com.google.** {*;}
 
 -optimizationpasses 5
 -dontusemixedcaseclassnames
@@ -45,7 +67,7 @@
 -keepattributes SourceFile,LineNumberTable
 #----------------------------------------------------------------------------
 
-#---------------------------------Ä¬ÈÏ±£ÁôÇø---------------------------------
+#---------------------------------Ä¬ï¿½Ï±ï¿½ï¿½ï¿½ï¿½ï¿½---------------------------------
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -57,12 +79,20 @@
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 
+-keepclassmembers class com.lam.imagekit.services.CameraBroadCtrl {
+    private void recvBuffer(byte[], int);
+}
+
+#-dontshrink
+#-keep class com.lam.imagekit.services.CameraBroadCtrl {*;}
+
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 -keepclassmembers class * extends android.app.Activity{
     public void *(android.view.View);
 }
+
 -keepclassmembers enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);

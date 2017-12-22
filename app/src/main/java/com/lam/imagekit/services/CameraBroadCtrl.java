@@ -2,6 +2,7 @@ package com.lam.imagekit.services;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
 import com.ftr.message.CameraBroadMessageProtos;
 import com.ftr.message.MediaDeviceMessageProtos;
