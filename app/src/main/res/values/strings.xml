@@ -7,7 +7,7 @@
     <string name="control_panel_insufficient_storage_alert">Insufficient storage(%.2fMB), cannot start recording video</string>
     <string name="media_list_delete_button">Delete</string>
     <string name="media_list_cancel_button">Cancel</string>
-    <string name="media_list_delete_button_highlight_format">(%d)</string>
+    <string name="media_list_delete_button_highlight_format">(%d/%d)</string>
     <string name="media_list_empty_list">Media directory is empty or not exist</string>
     <!-- ijk -->
     <string name="N_A">N/A</string>
@@ -76,5 +76,17 @@
     <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
     <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
     <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
+
+    <string name="isRecording">正在录像</string>
+    <string name="back_button_press">再按一次退出程序</string>
+    <string name="before_preview_word">请连接到imagekit设备</string>
+    <string name="something_err">很抱歉,程序出现异常,即将退出.</string>
+    <string name="Reminder">温馨提示</string>
+    <string name="send_err">系统检测到上次异常退出，是否发送报告,需要连接至互联网</string>
+    <string name="send">发送</string>
+    <string name="no_send">不发送</string>
+    <string name="cancle">取消</string>
+    <string name="select">选择</string>
+    <string name="setting_back_button_contentDescription">Back</string>
 
 </resources>

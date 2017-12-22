@@ -36,5 +36,6 @@
 
     <color name="ijk_transparent_dark">#77000000</color>
     <color name="main_color">#391b39</color>
+    <color name="white">#fff</color>
 
 </resources>

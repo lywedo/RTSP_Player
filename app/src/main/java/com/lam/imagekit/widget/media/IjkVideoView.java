@@ -41,6 +41,7 @@ import android.widget.TextView;
 
 import com.lam.imagekit.R;
 import com.lam.imagekit.services.MediaPlayerService;
+import com.lam.imagekit.utils.Utilities;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -968,6 +969,12 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
             throws IOException, IllegalArgumentException, SecurityException, IllegalStateException {
         if (mMediaPlayer != null && isPlaying())
             mMediaPlayer.startRecordVideo(path, fileName, width, height);
+            creatThumbnail(path, fileName);
+    }
+
+    public void creatThumbnail(String path, String fileName) throws IOException {
+        String replace = fileName.replace(".avi", "");
+        takePicture(Utilities.getThumbnailsPath(), replace, -1,-1,1);
     }
 
     public void stopRecordVideo() throws IllegalStateException {

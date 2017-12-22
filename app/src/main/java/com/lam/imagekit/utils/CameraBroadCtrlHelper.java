@@ -1,18 +1,17 @@
 package com.lam.imagekit.utils;
 
 
+import com.ftr.message.CameraBroadMessageProtos;
 
-import com.lam.imagekit.protos.CameraBroadMessageProtos;
-
-import static com.lam.imagekit.protos.CameraBroadMessageProtos.CameraBroadMessage.MsgType.MSG_TYPE_CUSTOM_CMD_REQ;
-
+import static com.ftr.message.CameraBroadMessageProtos.CameraBroadMessage.MsgType.MSG_TYPE_CUSTOM_CMD_REQ;
 
 /**
  * Created by sknown on 2017/8/22.
  */
 
 public class CameraBroadCtrlHelper {
-
+    public final static int DATA_TYPE_BROADCTRL = 0x10101010;
+    public final static int DATA_TYPE_MEDIADEVICE = 0x20202020;
     public static byte[] cmdReqBuf(String name, int param1, int param2){
         CameraBroadMessageProtos.CameraBroadMessage.Builder builder = CameraBroadMessageProtos.CameraBroadMessage.newBuilder();
         builder.setType(MSG_TYPE_CUSTOM_CMD_REQ);

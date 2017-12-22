@@ -21,10 +21,11 @@ public class Utilities {
     private static final String HOME_PATH_NAME = "imagekit";
     // 照片和视频的子目录名
     private static final String PHOTO_PATH_NAME = "Image";
-    private static final String VIDEO_PATH_NAME = "Movie";
+    public static final String VIDEO_PATH_NAME = "Movie";
     private static final String CARD_MEDIA_PATH_NAME = "CardMedia";
     private static final String CARD_MEDIA_IMAGE_PATH_NAME = "Image";
     private static final String CARD_MEDIA_VIDEO_PATH_NAME = "Video";
+    public static final String THUMBLENAIL_PATH_NAME = "Thumbnail";
     // 照片和视频的扩展名
     private static final String PHOTO_FILE_EXTENSION = "png";
     private static final String VIDEO_FILE_EXTENSION = "avi";
@@ -87,6 +88,10 @@ public class Utilities {
      */
     static public String getVideoPath() {
         return getSubDir(getHomePath(), VIDEO_PATH_NAME);
+    }
+
+    static public String getThumbnailsPath(){
+        return getSubDir(getHomePath(), THUMBLENAIL_PATH_NAME);
     }
 
     /**

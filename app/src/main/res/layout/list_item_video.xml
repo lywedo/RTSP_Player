@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:padding="8dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:gravity="center_vertical"
+              android:padding="8dp">
+    <ImageView
+        android:id="@+id/list_item_video_file_path_imageView"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:background="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/list_item_video_file_path_textView"
@@ -11,8 +20,7 @@
         android:layout_height="48dp"
         android:layout_margin="8dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
         android:gravity="center_vertical"
         android:textSize="18sp"/>
 
-</RelativeLayout>
+</LinearLayout>

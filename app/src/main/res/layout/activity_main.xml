@@ -105,15 +105,14 @@
 
         </RelativeLayout>
 
-
         <ImageButton
-            android:id="@+id/control_panel_full_button"
+            android:id="@+id/control_panel_rotate_screen_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@drawable/button_full" />
+            android:src="@drawable/button_rotate_screen" />
 
         <ImageButton
             android:id="@+id/control_panel_review_button"
@@ -146,12 +145,12 @@
         android:visibility="gone">
 
         <ImageButton
-            android:id="@+id/control_panel_rotate_screen_button"
+            android:id="@+id/control_panel_full_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@drawable/button_rotate_screen" />
+            android:src="@drawable/button_full" />
 
         <ImageButton
             android:id="@+id/control_panel_resolution_button"

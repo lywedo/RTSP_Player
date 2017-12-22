@@ -2,6 +2,6 @@
     package="tv.danmaku.ijk.media.player_x86_64">
 
     <uses-sdk
-        android:minSdkVersion="21" />
+        android:minSdkVersion="17" />
 
 </manifest>

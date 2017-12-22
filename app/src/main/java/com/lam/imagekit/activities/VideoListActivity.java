@@ -1,12 +1,15 @@
 package com.lam.imagekit.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lam.imagekit.R;
 import com.lam.imagekit.utils.Utilities;
 
@@ -57,6 +60,11 @@ public class VideoListActivity extends MediaListActivity {
      */
     @Override
     protected ListAdapter getListAdapter() {
+        class ViewHolder{
+            TextView tv;
+            ImageView iv;
+        }
+
         return new BaseAdapter() {
             @Override
             public int getCount() {
@@ -75,8 +83,17 @@ public class VideoListActivity extends MediaListActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder holder;
+                String videoFilePath = (String)this.getItem(position);
+                String videoFileName = new File(videoFilePath).getName();
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.list_item_video, null);
+                    holder = new ViewHolder();
+                    holder.tv = convertView.findViewById(R.id.list_item_video_file_path_textView);
+                    holder.iv = convertView.findViewById(R.id.list_item_video_file_path_imageView);
+                    convertView.setTag(holder);
+                }else {
+                    holder = (ViewHolder) convertView.getTag();
                 }
 
                 // Set background color
@@ -84,13 +101,9 @@ public class VideoListActivity extends MediaListActivity {
                         mCheckedArray.get(position) ? listViewCheckedColor : listViewDefaultColor
                 );
 
-                String videoFilePath = (String)this.getItem(position);
-                String videoFileName = new File(videoFilePath).getName();
-
-                TextView textView = (TextView)convertView
-                        .findViewById(R.id.list_item_video_file_path_textView);
-                // Set File Name
-                textView.setText(videoFileName);
+                holder.tv.setText(videoFileName);
+                Log.d("image",videoFilePath);
+                Glide.with(VideoListActivity.this).load(Utilities.getThumbnailsPath()+"/"+videoFileName.replace(".avi",".png")).into(holder.iv);
 
                 return convertView;
             }

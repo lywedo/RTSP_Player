@@ -1,6 +1,7 @@
 package com.lam.imagekit.activities;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseBooleanArray;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lam.imagekit.R;
@@ -34,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.OnItemLongClick;
 
 
 public abstract class MediaListActivity extends AppCompatActivity {
@@ -47,11 +50,11 @@ public abstract class MediaListActivity extends AppCompatActivity {
     @BindView(R.id.media_list_listView)
     ListView mMediaListView;
     @BindView(R.id.media_select_button)
-    ImageButton mMore;
+    TextView mMore;
     @BindView(R.id.ll_bar_control)
     LinearLayout mBar;
     @BindView(R.id.media_select_cancel)
-    ImageButton mMediaCancel;
+    TextView mMediaCancel;
     @BindView(R.id.media_select_all)
     ImageButton mSelectAll;
     @BindView(R.id.media_select_delect)
@@ -77,9 +80,14 @@ public abstract class MediaListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+        }
+
         initContentView(R.layout.activity_media_list);
         ButterKnife.bind(this);
 
@@ -176,6 +184,23 @@ public abstract class MediaListActivity extends AppCompatActivity {
             }
         }
     }
+    @OnItemLongClick(R.id.media_list_listView)
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l){
+        mCheckedMode = true;
+        updateDeleteButton();
+        mMediaListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mMediaListView.setSelection(i);
+        mMediaListView.clearChoices();
+        mCheckedArray = mMediaListView.getCheckedItemPositions();
+        mMediaListView.invalidateViews();
+        mBar.setVisibility(View.VISIBLE);
+        mMore.setVisibility(View.GONE);
+
+        mBackButton.setVisibility(View.INVISIBLE);
+        // Reload list
+        mMediaList = reloadMediaList();
+        return false;
+    }
 
     /**
      * Buttons OnClick
@@ -254,6 +279,11 @@ public abstract class MediaListActivity extends AppCompatActivity {
                         for (int i = 0; i < mMediaListView.getCount(); i++) {
                             if (mCheckedArray.get(i)) {
                                 String filePath = mMediaList.get(i);
+                                if (filePath.split("[.]")[1].equals("avi")){
+                                    String pathRoot = filePath.split("Movie")[0];
+                                    String fileName = filePath.split(Utilities.VIDEO_PATH_NAME+"/")[1];
+                                    Utilities.deleteFile(pathRoot + Utilities.THUMBLENAIL_PATH_NAME+ "/" + fileName.split("[.]")[0] + ".png");
+                                }
                                 Utilities.deleteFile(filePath);
                             }
                         }
@@ -291,7 +321,7 @@ public abstract class MediaListActivity extends AppCompatActivity {
             mDeleteButton.setVisibility(View.VISIBLE);
             int checkedItemCount = mMediaListView.getCheckedItemCount();
             String deleteButtonText =
-                    String.format(Locale.getDefault(), deleteButtonHighlightFormat, checkedItemCount);
+                    String.format(Locale.getDefault(), deleteButtonHighlightFormat, checkedItemCount, mMediaListView.getCount());
             mDeleteButton.setText(deleteButtonText);
             mDeleteButton.setTextColor(Color.WHITE);
         } else {

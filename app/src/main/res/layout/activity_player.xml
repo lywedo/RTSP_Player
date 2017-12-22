@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:background="#0099cc">
 
-        <com.lam.imagekit.wigets.media.IjkVideoView
+        <com.lam.imagekit.widget.media.IjkVideoView
             android:id="@+id/video_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

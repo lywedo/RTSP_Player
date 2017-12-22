@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -41,13 +42,13 @@
             <!--android:textAllCaps="false"-->
             <!--android:textColor="@color/colorPrimary"-->
             <!--android:visibility="invisible"/>-->
-        <ImageButton
+        <TextView
             android:id="@+id/media_select_button"
             android:background="#00000000"
-            android:src="@mipmap/media_select"
             android:padding="12dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:text="@string/select"
+            android:layout_marginRight="5dp"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -64,8 +65,8 @@
                 android:id="@+id/media_select_delect"
                 android:background="#00000000"
                 android:src="@mipmap/media_delete"
-                android:padding="12dp"
                 android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,19 +76,19 @@
                 android:id="@+id/media_select_all"
                 android:background="@drawable/button_selectall"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
-            <ImageButton
+            <TextView
                 android:id="@+id/media_select_cancel"
                 android:background="#00000000"
-                android:src="@mipmap/media_cancel"
+                android:text="@string/cancle"
+                android:textColor="@color/white"
                 android:padding="12dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

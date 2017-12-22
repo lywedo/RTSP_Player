@@ -1,4 +1,16 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
+
+def getGitVersion() {
+    return 'git rev-parse --short HEAD'.execute().text.trim()
+}
+
+def apkSuffix() {
+    def df = new SimpleDateFormat("yyyyMMdd")
+    df.setTimeZone(TimeZone.getTimeZone("GMT+8"))
+    return df.format(new Date())
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -13,7 +25,19 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
     }
-
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            //def file = output.outputFile
+            //def filename = file.name.replace(".apk", "-"+ getGitVersion() + "-" + apkSuffix() + ".apk");
+            def filename = "(" + variant.applicationId.replace('.', '-') + ")" +
+                    "-" + variant.versionCode +
+                    "-" + variant.buildType.getName() +
+                    "-" + getGitVersion() + "-" + apkSuffix() + ".apk";
+            //output.outputFile = new File(output.outputFile.getParent(), filename)
+            outputFileName = filename;
+        }
+    }
+    
     signingConfigs {
         release {
             keyAlias 'ftr'
@@ -33,14 +57,17 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
         }
         debug {
             jniDebuggable true
+            signingConfig signingConfigs.debug
         }
     }
     productFlavors {
-        all32 { minSdkVersion 14 }
-        all64 { minSdkVersion 21 }
+//        all32 { minSdkVersion 14 }
+        all64 { minSdkVersion 17 }
     }
     buildToolsVersion '26.0.2'
 }
@@ -56,13 +83,15 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     // ijkplayer
     compile project(':ijkplayer-java')
-    all32Compile project(':ijkplayer-armv5')
-    all32Compile project(':ijkplayer-armv7a')
-    all32Compile project(':ijkplayer-x86')
-    all64Compile project(':ijkplayer-armv5')
+//    all32Compile project(':ijkplayer-armv5')
+//    all32Compile project(':ijkplayer-armv7a')
+//    all32Compile project(':ijkplayer-x86')
+//    all64Compile project(':ijkplayer-armv5')
     all64Compile project(':ijkplayer-armv7a')
     all64Compile project(':ijkplayer-arm64')
     all64Compile project(':ijkplayer-x86')
     all64Compile project(':ijkplayer-x86_64')
     implementation files('libs/protobuf-java-2.6.1.jar')
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.tencent.bugly:crashreport:latest.release'
 }

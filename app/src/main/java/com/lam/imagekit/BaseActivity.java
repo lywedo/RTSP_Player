@@ -10,17 +10,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.lam.imagekit.application.Constants;
+import com.lam.imagekit.utils.CrashHandler;
 
 /**
  * Created by Lam on 2017/11/23.
  */
 
 public class BaseActivity extends AppCompatActivity {
+    private int m_crashTick;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        m_crashTick = CrashHandler.getInstance().checkCrash(this);
+    }
+
+    protected boolean isBuglyShowing(){
+        m_crashTick = CrashHandler.getInstance().getCrashTick(AppContext.getInstance());
+        return (m_crashTick>0);
+    }
     /**
      * 判断是否拥有权限
      *

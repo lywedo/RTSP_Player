@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.lam.imagekit.R;
 import com.lam.imagekit.utils.Utilities;
 
@@ -49,6 +50,11 @@ public class PhotoListActivity extends MediaListActivity {
      */
     @Override
     protected ListAdapter getListAdapter() {
+        class ViewHolder{
+            TextView tv;
+            ImageView iv;
+        }
+
         return new BaseAdapter() {
             @Override
             public int getCount() {
@@ -67,8 +73,16 @@ public class PhotoListActivity extends MediaListActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+                ViewHolder holder;
+                String imageFilePath = (String)this.getItem(position);
                 if (convertView == null) {
+                    holder = new ViewHolder();
                     convertView = getLayoutInflater().inflate(R.layout.list_item_photo, null);
+                    holder.tv = convertView.findViewById(R.id.list_item_photo_file_path_textView);
+                    holder.iv = convertView.findViewById(R.id.list_item_photo_preview_imageView);
+                    convertView.setTag(holder);
+                }else {
+                    holder = (ViewHolder) convertView.getTag();
                 }
 
                 // Set background color
@@ -78,17 +92,8 @@ public class PhotoListActivity extends MediaListActivity {
 
                 ImageView imageView = (ImageView)convertView
                         .findViewById(R.id.list_item_photo_preview_imageView);
-                // Load iamge
-                String imageFilePath = (String)this.getItem(position);
-                Bitmap bmp = BitmapFactory.decodeFile(imageFilePath);
-                imageView.setImageBitmap(bmp);
-
-                String imageFileName = new File(imageFilePath).getName();
-
-                TextView textView = (TextView)convertView
-                        .findViewById(R.id.list_item_photo_file_path_textView);
-                // Set text
-                textView.setText(imageFileName);
+                Glide.with(PhotoListActivity.this).load(imageFilePath).into(holder.iv);
+                holder.tv.setText(new File(imageFilePath).getName());
 
                 return convertView;
             }
