@@ -5,4 +5,10 @@
 
     <dimen name="ijk_horizontal_margin">@dimen/activity_horizontal_margin</dimen>
     <dimen name="ijk_vertical_margin">@dimen/activity_vertical_margin</dimen>
+
+    <!-- Title 相关高度 -->
+    <dimen name="layout_title_heigh">45dp</dimen>
+    <dimen name="layout_title_content_heigh">30dp</dimen>
+    <dimen name="layout_title_mini_textsize">16sp</dimen>
+
 </resources>

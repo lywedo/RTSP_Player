@@ -25,7 +25,7 @@ public class AppContext extends Application {
     private static final String BUGLY_ID = "d2ec6c5fae";
     protected static AppContext instance;
     private CameraParam cameraParam = new CameraParam();
-    public int mResolutionIndex = 3;
+
     private CameraBroadCtrl m_broadCtrl;
     private boolean deviceOnline;
 
@@ -63,13 +63,14 @@ public class AppContext extends Application {
     public CameraBroadCtrl getBroadCtrl(){
         return m_broadCtrl;
     }
-    public void setResulotionIndex(int index){
-        mResolutionIndex = index;
-    }
 
-    public int getResolutionIndex(){
-        return mResolutionIndex;
-    }
+//    public int mResolutionIndex = 3;
+//    public void setResulotionIndex(int index){
+//        mResolutionIndex = index;
+//    }
+//    public int getResolutionIndex(){
+//        return mResolutionIndex;
+//    }
 
     public static AppContext getInstance(){
         return instance;

@@ -88,5 +88,8 @@
     <string name="cancle">取消</string>
     <string name="select">选择</string>
     <string name="setting_back_button_contentDescription">Back</string>
+    <string name="please_camera">请插入摄像头</string>
+    <string name="resolution">分辨率</string>
+    <string name="click_back_again">再按一次退出程序</string>
 
 </resources>

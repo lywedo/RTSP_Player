@@ -14,13 +14,12 @@
 
         <ImageButton
             android:id="@+id/media_back_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/layout_title_content_heigh"
+            android:layout_height="@dimen/layout_title_content_heigh"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:src="@mipmap/back"
-            android:padding="10dp"
-            android:background="#00000000"/>
+            android:background="@drawable/bg_back_arrow_white_selector"
+            android:padding="20dp"/>
         <Button
             android:id="@+id/media_delete_button"
             android:layout_width="wrap_content"

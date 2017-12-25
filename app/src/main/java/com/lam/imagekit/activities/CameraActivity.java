@@ -34,9 +34,6 @@ import com.lam.imagekit.BuildConfig;
 import com.lam.imagekit.R;
 import com.lam.imagekit.application.Constants;
 import com.lam.imagekit.services.CameraBroadCtrl;
-import com.lam.imagekit.utils.AppManager;
-import com.lam.imagekit.utils.CameraBroadCtrlHelper;
-import com.lam.imagekit.utils.ConnectUtils;
 import com.lam.imagekit.utils.Utilities;
 import com.lam.imagekit.widget.freespacemonitor.FreeSpaceMonitor;
 import com.lam.imagekit.widget.media.IRenderView;
@@ -54,7 +51,6 @@ import static com.lam.imagekit.application.Constants.CODE_WRITE_EXTERNAL_STORAGE
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_TAKEPHOTOS;
 import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
 import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
-import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_DROP;
 import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
 
 public class CameraActivity extends BaseActivity {
@@ -69,18 +65,18 @@ public class CameraActivity extends BaseActivity {
     ProgressBar mProgressBar;
     ImageView mCafe;
     IjkVideoView mVideoView;
-    ImageButton mPhoto;
-    ImageButton mVideo;
-    ImageButton mAlbum;
-    ImageButton mSetting;
-    LinearLayout mControl;
-    LinearLayout mControlRight;
+    ImageButton mTakePhotoButton;
+    ImageButton mTakeVideoButton;
+    ImageButton mAlbumButton;
+    ImageButton mSettingButton;
+    LinearLayout mControlLayout;
+    LinearLayout mControlRightLayout;
     TextView mPointText;
     String mVideoPath;
     TableLayout mHudView;
     SoundPool mSoundPool;
-    ImageButton mRotate;
-    ImageButton mFull;
+    ImageButton mRotateButton;
+    ImageButton mFullButton;
     ImageView mResolutionButton;
     boolean recording = false;
     Chronometer mChronometer;
@@ -185,7 +181,7 @@ public class CameraActivity extends BaseActivity {
             public int process(int what, int param1, int parma2) {
                 switch (what){
                     case MSG_CAMERABROADCTRL_TAKEPHOTOS:
-                        record();
+                        takePicture();
                         break;
                 }
                 return 0;
@@ -273,14 +269,14 @@ public class CameraActivity extends BaseActivity {
                                     noteText,
                                     Toast.LENGTH_SHORT
                             ).show();
-                            mVideo.setImageResource(R.mipmap.con_video);
+                            mTakeVideoButton.setImageResource(R.mipmap.con_video);
                             // 隐藏录像计时器
                             showChronometer(false);
                         } else if (resultCode == 0) {
                             recording = true;
                             // 开启录像计时
                             showChronometer(true);
-                            mVideo.setImageResource(R.mipmap.con_video_h);
+                            mTakeVideoButton.setImageResource(R.mipmap.con_video_h);
                             // 开始监控剩余空间
                             mFreeSpaceMonitor.setListener(new FreeSpaceMonitor.FreeSpaceCheckerListener() {
                                 @Override
@@ -306,7 +302,7 @@ public class CameraActivity extends BaseActivity {
                                     noteText + fileName,
                                     Toast.LENGTH_SHORT
                             ).show();
-                            mVideo.setImageResource(R.mipmap.con_video);
+                            mTakeVideoButton.setImageResource(R.mipmap.con_video);
                             // 隐藏录像计时器
                             showChronometer(false);
 
@@ -355,17 +351,17 @@ public class CameraActivity extends BaseActivity {
 
         IjkMediaPlayer.getMessageBus().register(this);
 
-        mPhoto.setOnClickListener(new View.OnClickListener() {
+        mTakePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                record();
+                takePicture();
             }
         });
     }
 
-    private void record(){
+    private void takePicture(){
         if (recording){
-            Toast.makeText(CameraActivity.this, "正在录像",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CameraActivity.this, getString(R.string.isRecording),Toast.LENGTH_SHORT).show();
         }else {
             // Take a photo
             String photoFilePath = Utilities.getPhotoDirPath();
@@ -389,17 +385,21 @@ public class CameraActivity extends BaseActivity {
          * 录像计时器
          */
         mChronometer = (Chronometer)findViewById(R.id.control_panel_chronometer);
-        mControl = findViewById(R.id.ll_control);
+        mControlLayout = findViewById(R.id.ll_control);
         mVideoView = findViewById(R.id.video_view);
-        mPhoto = findViewById(R.id.control_panel_take_photo_button);
-        mVideo = findViewById(R.id.control_panel_record_video_button);
-        mAlbum = findViewById(R.id.control_panel_review_button);
-        mSetting = findViewById(R.id.control_panel_setting_button);
+        mTakePhotoButton = findViewById(R.id.control_panel_take_photo_button);
+        mTakeVideoButton = findViewById(R.id.control_panel_record_video_button);
+        mAlbumButton = findViewById(R.id.control_panel_review_button);
+        mSettingButton = findViewById(R.id.control_panel_setting_button);
         mResolutionButton = findViewById(R.id.control_panel_resolution_button);
         mResolutionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CameraActivity.this, SettingActivity.class));
+                if (!recording){
+                    startActivity(new Intent(CameraActivity.this, SettingActivity.class));
+                }else {
+                    Toast.makeText(CameraActivity.this, getString(R.string.isRecording), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 //        mProgressBar = findViewById(R.id.control_panel_progressBar);
@@ -409,22 +409,22 @@ public class CameraActivity extends BaseActivity {
         animator.setDuration(1500);
         animator.start();
         mPointText = findViewById(R.id.tv_point);
-        mControlRight = findViewById(R.id.control_panel_right_menubar);
-        mFull = findViewById(R.id.control_panel_full_button);
-        mFull.setOnClickListener(new View.OnClickListener() {
+        mControlRightLayout = findViewById(R.id.control_panel_right_menubar);
+        mFullButton = findViewById(R.id.control_panel_full_button);
+        mFullButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isFull = !isFull;
                 fullScreen(isFull);
             }
         });
-        mAlbum.setOnClickListener(new View.OnClickListener() {
+        mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(CameraActivity.this, ReviewActivity.class));
             }
         });
-        mVideo.setOnClickListener(new View.OnClickListener() {
+        mTakeVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (recording) {
@@ -453,18 +453,18 @@ public class CameraActivity extends BaseActivity {
                 }
             }
         });
-        mSetting.setOnClickListener(new View.OnClickListener() {
+        mSettingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mControlRight.getVisibility()!=VISIBLE){
-                    mControlRight.setVisibility(View.VISIBLE);
+                if (mControlRightLayout.getVisibility()!=VISIBLE){
+                    mControlRightLayout.setVisibility(View.VISIBLE);
                 }else {
-                    mControlRight.setVisibility(GONE);
+                    mControlRightLayout.setVisibility(GONE);
                 }
             }
         });
         if (BuildConfig.DEBUG){
-            mSetting.setOnLongClickListener(new View.OnLongClickListener() {
+            mSettingButton.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     if (mHudView.getVisibility() != View.VISIBLE)
@@ -475,8 +475,8 @@ public class CameraActivity extends BaseActivity {
                 }
             });
         }
-        mRotate = findViewById(R.id.control_panel_rotate_screen_button);
-        mRotate.setOnClickListener(new View.OnClickListener() {
+        mRotateButton = findViewById(R.id.control_panel_rotate_screen_button);
+        mRotateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 rotate90();
@@ -562,11 +562,11 @@ public class CameraActivity extends BaseActivity {
     private void setButtonsVisible(boolean visible) {
         if (visible) {
             isButtonsVisible = true;
-            mControl.setVisibility(View.VISIBLE);
+            mControlLayout.setVisibility(View.VISIBLE);
         } else {
             isButtonsVisible = false;
-            mControl.setVisibility(View.INVISIBLE);
-            mControlRight.setVisibility(View.INVISIBLE);
+            mControlLayout.setVisibility(View.INVISIBLE);
+            mControlRightLayout.setVisibility(View.INVISIBLE);
         }
     }
     /**
@@ -581,7 +581,7 @@ public class CameraActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                mSetting.setImageResource(R.mipmap.con_extra_settings);
+                mSettingButton.setImageResource(R.mipmap.con_extra_settings);
                 setButtonsVisible(false);
             }
         }.start();
@@ -634,30 +634,6 @@ public class CameraActivity extends BaseActivity {
 //        }
     }
 
-    private void sendUDP(final String message){
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                for (;;) {
-//                    ConnectUtils utils = null;
-//                    try {
-//                        utils = ConnectUtils.getInstance();
-//                        utils.setTimeOut(5000);// 设置超时为5s
-//                        // 向服务器发数据
-//                        utils.send(Constants.SERVER_ADDRESS, Constants.SERVER_PORT, message.getBytes());
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-////                try {
-////                    ConnectUtils.getInstance().close();
-////                } catch (Exception e) {
-////                    e.printStackTrace();
-////                }
-//
-//            }
-//        }).start();
-    }
     private int backPressedTimes = 0;
     @Override
     public void onBackPressed() {
@@ -668,7 +644,7 @@ public class CameraActivity extends BaseActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
 //			finish();
         } else {
-            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.click_back_again, Toast.LENGTH_SHORT).show();
         }
         // super.onBackPressed();
     }

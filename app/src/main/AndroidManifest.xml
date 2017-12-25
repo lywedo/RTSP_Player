@@ -41,6 +41,7 @@
             android:name=".activities.SettingActivity"
             android:configChanges="orientation|screenSize">
         </activity>
+        <activity android:name=".activities.preview.PhotoPreviewActivity"/>
     </application>
 
 </manifest>

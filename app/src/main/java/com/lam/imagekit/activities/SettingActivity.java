@@ -27,6 +27,8 @@ import java.util.TreeSet;
 
 
 public class SettingActivity extends AppCompatActivity {
+    private final int RESOLUTION_SECTION_INDEX = 0;
+
     // Show version
     private TextView mVersionTextView;
 
@@ -38,6 +40,9 @@ public class SettingActivity extends AppCompatActivity {
 
     private boolean bAutosave;
     private int m_picformat;
+    private int m_resolutionCurrentIndex;
+
+
     private ArrayList<String> m_resolutionList = new ArrayList<>();
     private SettingAdapter m_settingAdapter;
 
@@ -58,7 +63,7 @@ public class SettingActivity extends AppCompatActivity {
 
         // Header & Title
         headers = new String[] {
-                "分辨率",
+                getString(R.string.resolution),
         };
 
 //        // Back Button
@@ -72,12 +77,6 @@ public class SettingActivity extends AppCompatActivity {
 //
 //        // ListView
         mListView = (ListView)findViewById(R.id.setting_listView);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: List item 点击事件
-            }
-        });
         m_settingAdapter = new SettingAdapter();
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,7 +103,7 @@ public class SettingActivity extends AppCompatActivity {
         m_resolutionList.clear();
         genResolutionList();
         if(m_resolutionList.size() == 0){
-            m_resolutionList.add("请插入摄像头");
+            m_resolutionList.add(getString(R.string.please_camera));
         }
 
         m_settingAdapter.updateSection(0, m_resolutionList);
@@ -251,11 +250,10 @@ public class SettingActivity extends AppCompatActivity {
                     // Set position as Tag
                     imageButton.setTag(position);
 
-                    // TODO: Set the row
                     // Section 0
-                    if (section == 0) {
+                    if (section == RESOLUTION_SECTION_INDEX) {//res
                         // Row 0
-                        if (position == AppContext.getInstance().getResolutionIndex()) {
+                        if (row == m_resolutionCurrentIndex+1) {//1 for head
                             imageButton.setImageResource(R.mipmap.select_index);
                         }
                         // Row except above
@@ -263,25 +261,25 @@ public class SettingActivity extends AppCompatActivity {
                             imageButton.setVisibility(View.INVISIBLE);
                         }
                     }
-                    // Section 1
-                    else if (section == 1) {
-                        // Row 0
-                        if (row == 0) {
-                            if (rightHandMode) {
-                                imageButton.setImageResource(R.mipmap.switch_enable);
-                            } else {
-                                imageButton.setImageResource(R.mipmap.switch_disable);
-                            }
-                        }
-                        // Row except above
-                        else {
-                            imageButton.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                    // Section 2
-                    else if (section == 2) {
-                        imageButton.setVisibility(View.INVISIBLE);
-                    }
+//                    // Section 1
+//                    else if (section == 1) {
+//                        // Row 0
+//                        if (row == 0) {
+//                            if (rightHandMode) {
+//                                imageButton.setImageResource(R.mipmap.switch_enable);
+//                            } else {
+//                                imageButton.setImageResource(R.mipmap.switch_disable);
+//                            }
+//                        }
+//                        // Row except above
+//                        else {
+//                            imageButton.setVisibility(View.INVISIBLE);
+//                        }
+//                    }
+//                    // Section 2
+//                    else if (section == 2) {
+//                        imageButton.setVisibility(View.INVISIBLE);
+//                    }
                     break;
             }
 
@@ -333,6 +331,9 @@ public class SettingActivity extends AppCompatActivity {
             if (sparamList != null){
                 for(StreamParam streamParam : sparamList){
                     m_resolutionList.add("" + streamParam.width + "x" + streamParam.height);
+                    if(streamParam.width == cparam.curWidth && streamParam.height == cparam.curHeight){
+                        m_resolutionCurrentIndex = m_resolutionList.size()-1;
+                    }
                 }
             }
         }

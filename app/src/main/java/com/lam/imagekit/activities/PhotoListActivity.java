@@ -14,15 +14,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lam.imagekit.R;
+import com.lam.imagekit.activities.preview.PhotoPreviewActivity;
 import com.lam.imagekit.utils.Utilities;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindColor;
 
 
 public class PhotoListActivity extends MediaListActivity {
+
+    public static final String LIST_ALL = "list_all";
+    public static final String LIST_POSITION = "list_position";
 
     // ListView color
     @BindColor(R.color.list_view_default_color)
@@ -109,10 +114,14 @@ public class PhotoListActivity extends MediaListActivity {
         // TODO: Show photo
         String photoFilePath = mMediaList.get(index);
         // Start the photo intent
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse("file://" + photoFilePath), "image/*");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Intent intent = new Intent(this, PhotoPreviewActivity.class);
+//        intent.setAction(Intent.ACTION_VIEW);
+//        intent.setDataAndType(Uri.parse("file://" + photoFilePath), "image/*");
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Bundle bundle = new Bundle();
+        bundle.putStringArrayList(LIST_ALL, (ArrayList<String>) mMediaList);
+        bundle.putInt(LIST_POSITION, index);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
