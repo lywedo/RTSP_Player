@@ -33,6 +33,7 @@ import com.lam.imagekit.BaseActivity;
 import com.lam.imagekit.BuildConfig;
 import com.lam.imagekit.R;
 import com.lam.imagekit.application.Constants;
+import com.lam.imagekit.data.CameraParam;
 import com.lam.imagekit.services.CameraBroadCtrl;
 import com.lam.imagekit.utils.Utilities;
 import com.lam.imagekit.widget.freespacemonitor.FreeSpaceMonitor;
@@ -367,7 +368,8 @@ public class CameraActivity extends BaseActivity {
             String photoFilePath = Utilities.getPhotoDirPath();
             String photoFileName = Utilities.getMediaFileName();
             try {
-                mVideoView.takePicture(photoFilePath, photoFileName, -1, -1, 1);
+                CameraParam cameraParam = AppContext.getInstance().getCameraParam();
+                mVideoView.takePicture(photoFilePath, photoFileName, cameraParam.curWidth, cameraParam.curHeight, 1);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -400,6 +402,7 @@ public class CameraActivity extends BaseActivity {
                 }else {
                     Toast.makeText(CameraActivity.this, getString(R.string.isRecording), Toast.LENGTH_SHORT).show();
                 }
+                mControlRightLayout.setVisibility(GONE);
             }
         });
 //        mProgressBar = findViewById(R.id.control_panel_progressBar);
@@ -504,6 +507,7 @@ public class CameraActivity extends BaseActivity {
 //        mBackgroundView.setVisibility(View.VISIBLE);
 //        mProgressBar.setVisibility(View.VISIBLE);
         mCafe.setVisibility(VISIBLE);
+        mPointText.setVisibility(VISIBLE);
 
         mVideoView.post(new Runnable() {
             @Override

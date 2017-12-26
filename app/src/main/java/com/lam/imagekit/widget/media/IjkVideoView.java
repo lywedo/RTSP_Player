@@ -60,7 +60,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     private Uri mUri;
     private Map<String, String> mHeaders;
 
-    private static final int IJK_LOG_LEVEL = IjkMediaPlayer.IJK_LOG_WARN;
+    private static final int IJK_LOG_LEVEL = IjkMediaPlayer.IJK_LOG_ERROR;
 
     // RTP JPEG parse packet method
     public static final int RTP_JPEG_PARSE_PACKET_METHOD_ORIGIN = 0;

@@ -10,6 +10,8 @@ import com.ftr.utils.FTRCallback;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.lam.imagekit.AppContext;
 import com.lam.imagekit.application.Constants;
+import com.lam.imagekit.data.CameraParam;
+import com.lam.imagekit.data.StreamParam;
 import com.lam.imagekit.services.utils.MediaDeviceParse;
 import com.lam.imagekit.utils.CameraBroadCtrlHelper;
 import com.lam.imagekit.utils.ConnectUtils;
@@ -19,6 +21,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import static com.ftr.message.CameraBroadMessageProtos.CameraBroadMessage.MsgType.MSG_TYPE_CUSTOM_CMD_REQ;
 import static com.ftr.message.CameraBroadMessageProtos.CameraBroadMessage.MsgType.MSG_TYPE_CUSTOM_CMD_RESP;
@@ -106,7 +111,75 @@ public class CameraBroadCtrl {
         }
     }
 
+    Comparator comp = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            StreamParam p1 = (StreamParam) o1;
+            StreamParam p2 = (StreamParam) o2;
+
+            int s1 = p1.width*p1.height;
+            int s2 = p2.width*p2.height;
+
+            if (s1 < s2)
+                return 1;
+            else if (s1 == s2)
+                return 0;
+            else if (s1 > s2)
+                return 0;
+            return 0;
+        }
+    };
+
+    private boolean tooLargeResolution(int width, int height){
+        if(height>720){
+            return true;
+        }
+
+        return false;
+    }
+    private StreamParam getRealResolution(int width, int height){
+        float rotio = (float) width/(float)height;
+        if(tooLargeResolution(width, height)){
+            CameraParam cameraParam = AppContext.getInstance().getCameraParam();
+            int currentIndex = 0;
+            CameraParam cparam = AppContext.getInstance().getCameraParam();
+            int sourceIndex = CameraParam.SOURCE_USB;
+            CameraParam.Source source = cparam.getSource(sourceIndex);
+            if(source.size() == 0){
+                source = cparam.getSource(CameraParam.SOURCE_VI);
+                sourceIndex = CameraParam.SOURCE_VI;
+            }
+
+            int i=0;
+            int picformat = CameraParam.FORMAT_MJPEG;
+            CameraParam.StreamParamList sparamList = cparam.getFormat(sourceIndex, picformat);
+            if (sparamList != null){
+                ArrayList<StreamParam> list = new ArrayList<>();
+
+                for(StreamParam streamParam : sparamList){
+                    list.add(streamParam);
+                }
+                Collections.sort(list, comp);
+
+                for(StreamParam streamParam: list){
+                    float rotio2 = (float) streamParam.width/(float)streamParam.height;
+                    if(!tooLargeResolution(streamParam.width, streamParam.height) && rotio == rotio2){
+                        return streamParam;
+                    }
+                }
+            }
+        }
+
+        StreamParam streamParam = new StreamParam();
+        streamParam.width = width;
+        streamParam.height = height;
+        streamParam.fps = 25;
+
+        return streamParam;
+
+    }
+
     public void setuvc(final int width, final int height){
+//        StreamParam streamParam = getRealResolution(width, height);
         if(USE_JNI) {
             byte[] setuvcByte = CameraBroadCtrlHelper.cmdReqBuf("setuvc", width, height);
             send(setuvcByte, setuvcByte.length);

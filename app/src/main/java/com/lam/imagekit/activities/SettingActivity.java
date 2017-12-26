@@ -1,6 +1,7 @@
 package com.lam.imagekit.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ftr.utils.FTRCallback;
 import com.lam.imagekit.AppContext;
 import com.lam.imagekit.BuildConfig;
 import com.lam.imagekit.R;
@@ -49,9 +51,9 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_setting);
 
         // Version TextView
@@ -99,9 +101,65 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        AppContext.getInstance().setScanResultCallback(new FTRCallback() {
+            @Override
+            public Object process(Object object, int what, int param1, int parma2) {
 
-        m_resolutionList.clear();
-        genResolutionList();
+                m_handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshList(false);
+                        mListView.requestLayout();
+                        AppContext.getInstance().setScanResultCallback(null);
+                    }
+                });
+                //refreshList(false);
+                //AppContext.getInstance().setScanResultCallback(null);
+                return null;
+            }
+        });
+
+        refreshList(true);
+        refreshResolution();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        m_handler.removeCallbacks(m_refreshRunnable);
+        AppContext.getInstance().setScanResultCallback(null);
+    }
+
+    private void refreshList(boolean isforce){
+        if(isforce) {
+            m_resolutionList.clear();
+            m_resolutionCurrentIndex = genResolutionList(m_resolutionList);
+        }else{
+            ArrayList<String> list = new ArrayList<>();
+            int currentIndex = genResolutionList(list);
+            if(m_resolutionList.size() != list.size() || currentIndex != m_resolutionCurrentIndex){
+                m_resolutionList.clear();
+                m_resolutionList.addAll(list);
+                m_resolutionCurrentIndex = currentIndex;
+            }else{
+                int i = 0;
+                int count = m_resolutionList.size();
+                boolean diff = false;
+                for(i=0; i<count; i++){
+                    if(!m_resolutionList.get(i).equals(list.get(i))){
+                        m_resolutionList.clear();
+                        m_resolutionList.addAll(list);
+                        m_resolutionCurrentIndex = currentIndex;
+                        diff = true;
+                        break;
+                    }
+                }
+                if(!diff){
+                    return;
+                }
+            }
+        }
+
         if(m_resolutionList.size() == 0){
             m_resolutionList.add(getString(R.string.please_camera));
         }
@@ -115,6 +173,20 @@ public class SettingActivity extends AppCompatActivity {
         super.onDestroy();
 
     }
+
+    private Handler m_handler = new Handler();
+    private Runnable m_refreshRunnable = new Runnable() {
+        @Override
+        public void run() {
+            AppContext.getInstance().getBroadCtrl().getuvc();
+            m_handler.postDelayed(m_refreshRunnable, 3000);
+        }
+    };
+
+    private void refreshResolution(){
+        m_handler.post(m_refreshRunnable);
+    }
+
 
     /**
      * ListAdapter
@@ -314,8 +386,9 @@ public class SettingActivity extends AppCompatActivity {
         int row;
     }
 
-    private void genResolutionList(){
-        if(m_resolutionList.size() == 0){
+    private int genResolutionList(ArrayList<String> resolutionList){
+        int currentIndex = 0;
+        if(resolutionList.size() == 0){
             CameraParam cparam = AppContext.getInstance().getCameraParam();
             int sourceIndex = CameraParam.SOURCE_USB;
             CameraParam.Source source = cparam.getSource(sourceIndex);
@@ -330,12 +403,14 @@ public class SettingActivity extends AppCompatActivity {
             CameraParam.StreamParamList sparamList = cparam.getFormat(sourceIndex, picformat);
             if (sparamList != null){
                 for(StreamParam streamParam : sparamList){
-                    m_resolutionList.add("" + streamParam.width + "x" + streamParam.height);
+                    resolutionList.add("" + streamParam.width + "x" + streamParam.height);
                     if(streamParam.width == cparam.curWidth && streamParam.height == cparam.curHeight){
-                        m_resolutionCurrentIndex = m_resolutionList.size()-1;
+                        currentIndex = resolutionList.size()-1;
                     }
                 }
             }
         }
+
+        return currentIndex;
     }
 }
