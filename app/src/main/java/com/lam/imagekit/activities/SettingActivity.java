@@ -21,6 +21,8 @@ import com.lam.imagekit.data.CameraParam;
 import com.lam.imagekit.data.StreamParam;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class SettingActivity extends AppCompatActivity {
@@ -389,7 +391,23 @@ public class SettingActivity extends AppCompatActivity {
         int section;
         int row;
     }
+    Comparator comp = new Comparator() {
+        public int compare(Object o1, Object o2) {
+            StreamParam p1 = (StreamParam) o1;
+            StreamParam p2 = (StreamParam) o2;
 
+            int s1 = p1.width*p1.height;
+            int s2 = p2.width*p2.height;
+
+            if (s1 < s2)
+                return -1;
+            else if (s1 == s2)
+                return 0;
+            else if (s1 > s2)
+                return 1;
+            return 0;
+        }
+    };
     private int genResolutionList(ArrayList<String> resolutionList){
         int currentIndex = 0;
         if(resolutionList.size() == 0){
@@ -405,8 +423,12 @@ public class SettingActivity extends AppCompatActivity {
             int picformat = CameraParam.FORMAT_MJPEG;
             m_picformat = picformat;
             CameraParam.StreamParamList sparamList = cparam.getFormat(sourceIndex, picformat);
-            if (sparamList != null){
-                for(StreamParam streamParam : sparamList){
+            ArrayList<StreamParam> sortStreamList = new ArrayList<>();
+            sortStreamList.addAll(sparamList);
+            Collections.sort(sortStreamList, comp);
+
+            if (sortStreamList != null){
+                for(StreamParam streamParam : sortStreamList){
                     resolutionList.add("" + streamParam.width + "x" + streamParam.height);
                     if(streamParam.width == cparam.curWidth && streamParam.height == cparam.curHeight){
                         currentIndex = resolutionList.size()-1;
