@@ -60,8 +60,10 @@ public class CameraBroadCtrl {
 
     private boolean m_startRecv;
     public CameraBroadCtrl(){
-        m_thread = new UdpThread(10000);
-        m_thread.start();
+        if(!USE_JNI) {
+            m_thread = new UdpThread(10000);
+            m_thread.start();
+        }
 
         m_handlerThread = new HandlerThread("CameraBroadCtrlHandler");
         m_handlerThread.start();
