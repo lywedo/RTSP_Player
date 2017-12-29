@@ -11,8 +11,7 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="8dp"
-        android:background="@mipmap/ic_launcher"/>
+        android:layout_marginRight="8dp"/>
 
     <TextView
         android:id="@+id/list_item_video_file_path_textView"

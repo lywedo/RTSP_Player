@@ -39,7 +39,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="请连接到imagekit设备"
+            android:text="@string/before_preview_word"
             android:textColor="#fff"
             android:textSize="15dp" />
 

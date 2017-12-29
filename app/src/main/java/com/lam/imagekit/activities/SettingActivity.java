@@ -1,13 +1,12 @@
 package com.lam.imagekit.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextPaint;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -22,14 +21,11 @@ import com.lam.imagekit.data.CameraParam;
 import com.lam.imagekit.data.StreamParam;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeSet;
 
 
 public class SettingActivity extends AppCompatActivity {
     private final int RESOLUTION_SECTION_INDEX = 0;
+    private static boolean m_noCamera = true;
 
     // Show version
     private TextView mVersionTextView;
@@ -51,17 +47,20 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (Build.VERSION.SDK_INT >= 21) {
+            View decorView = getWindow().getDecorView();
+            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+            decorView.setSystemUiVisibility(option);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+        }
         setContentView(R.layout.activity_setting);
 
         // Version TextView
         mVersionTextView = (TextView)findViewById(R.id.setting_version_textView);
         // Show version
-        int versionCode = BuildConfig.VERSION_CODE;
         String versionName = BuildConfig.VERSION_NAME;
-        mVersionTextView.setText("Ver " + versionName + " (Build " + versionCode + ")");
+        mVersionTextView.setText("v" + versionName );
 
         // Header & Title
         headers = new String[] {
@@ -83,15 +82,17 @@ public class SettingActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int width = 0;
-                int height = 0;
-                SettingAdapter adapter = (SettingAdapter) adapterView.getAdapter();
-                String resu = (String) adapter.getItem(i);
-                String []wh = resu.split("x");
-                width = Integer.valueOf(wh[0]);
-                height = Integer.valueOf(wh[1]);
-                AppContext.getInstance().getBroadCtrl().setuvc(width, height);
-                finish();
+                if (!m_noCamera){
+                    int width = 0;
+                    int height = 0;
+                    SettingAdapter adapter = (SettingAdapter) adapterView.getAdapter();
+                    String resu = (String) adapter.getItem(i);
+                    String []wh = resu.split("x");
+                    width = Integer.valueOf(wh[0]);
+                    height = Integer.valueOf(wh[1]);
+                    AppContext.getInstance().getBroadCtrl().setuvc(width, height);
+                    finish();
+                }
             }
         });
         mListView.setAdapter(m_settingAdapter);
@@ -161,7 +162,10 @@ public class SettingActivity extends AppCompatActivity {
         }
 
         if(m_resolutionList.size() == 0){
+            m_noCamera = true;
             m_resolutionList.add(getString(R.string.please_camera));
+        }else{
+            m_noCamera = false;
         }
 
         m_settingAdapter.updateSection(0, m_resolutionList);
@@ -325,7 +329,7 @@ public class SettingActivity extends AppCompatActivity {
                     // Section 0
                     if (section == RESOLUTION_SECTION_INDEX) {//res
                         // Row 0
-                        if (row == m_resolutionCurrentIndex+1) {//1 for head
+                        if (row == m_resolutionCurrentIndex+1 && !m_noCamera) {//1 for head
                             imageButton.setImageResource(R.mipmap.select_index);
                         }
                         // Row except above

@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">ImageKit</string>
+    <string name="control_panel_alert_save_photo_fail">保存图片失败</string>
+    <string name="control_panel_alert_save_photo_success">图片保存到&#160;</string>
+    <string name="control_panel_alert_write_video_file_error">写入视频文件时发生错误，停止录制.\r\n视频保存到&#160;</string>
+    <string name="control_panel_alert_record_video_success">视频保存到&#160;</string>
+    <string name="control_panel_insufficient_storage_alert">存储空间不足(%.2fMB), 不能进行录像</string>
+    <string name="media_list_delete_button">删除</string>
+    <string name="media_list_cancel_button">取消</string>
+    <string name="media_list_delete_button_highlight_format">(%d/%d)</string>
+    <string name="media_list_empty_list">媒体目录为空或不存在</string>
+    <!-- ijk -->
+    <string name="N_A">N/A</string>
+    <string name="close">Close</string>
+    <string name="exit">Exit</string>
+    <string name="sample">Sample</string>
+    <string name="recent">Recent</string>
+    <string name="settings">Settings</string>
+    <string name="tracks">Tracks</string>
+    <string name="toggle_player">Player</string>
+    <string name="toggle_render">Render</string>
+    <string name="toggle_ratio">Scale</string>
+    <string name="show_info">Info</string>
+    <string name="vdec">vdec</string>
+    <string name="fps">fps</string>
+    <string name="v_cache">v-cache</string>
+    <string name="a_cache">a-cache</string>
+    <string name="load_cost">load-cost</string>
+    <string name="seek_cost">seek_cost</string>
+    <string name="seek_load_cost">seek_load_cost</string>
+    <string name="tcp_speed">tcp_speed</string>
+    <string name="bit_rate">bit_rate</string>
+
+    <string name="media_information">Media Information</string>
+    <string name="mi_player">Player</string>
+    <string name="mi_media">Media</string>
+    <string name="mi_profile_level">Profile level</string>
+    <string name="mi_pixel_format">Pixel format</string>
+    <string name="mi_resolution">Resolution</string>
+    <string name="mi_length">Length</string>
+    <string name="mi_stream_fmt1">Stream #%d</string>
+    <string name="mi_type">Type</string>
+    <string name="mi_language">Language</string>
+    <string name="mi_codec">Codec</string>
+    <string name="mi_frame_rate">Frame rate</string>
+    <string name="mi_bit_rate">Bit rate</string>
+    <string name="mi_sample_rate">Sample rate</string>
+    <string name="mi_channels">Channels</string>
+    <string name="mi__selected_video_track">*</string>
+    <string name="mi__selected_audio_track">*</string>
+    <string name="mi__selected_subtitle_track">*</string>
+
+    <string name="TrackType_video">Video</string>
+    <string name="TrackType_audio">Audio</string>
+    <string name="TrackType_subtitle">Subtitle</string>
+    <string name="TrackType_timedtext">Timed text</string>
+    <string name="TrackType_metadata">Meta data</string>
+    <string name="TrackType_unknown">Unknown</string>
+
+    <string name="VideoView_error_text_invalid_progressive_playback">Invalid progressive playback</string>
+    <string name="VideoView_error_text_unknown">Unknown</string>
+    <string name="VideoView_error_button">OK</string>
+
+    <string name="VideoView_ar_aspect_fit_parent">Aspect / Fit parent</string>
+    <string name="VideoView_ar_aspect_fill_parent">Aspect / Fill parent</string>
+    <string name="VideoView_ar_aspect_wrap_content">Aspect / Wrap content</string>
+    <string name="VideoView_ar_match_parent">Free / Fill parent</string>
+    <string name="VideoView_ar_16_9_fit_parent">16:9 / Fit parent</string>
+    <string name="VideoView_ar_4_3_fit_parent">4:3 / Fit parent</string>
+
+    <string name="VideoView_render_none">Render: None</string>
+    <string name="VideoView_render_surface_view">Render: SurfaceView</string>
+    <string name="VideoView_render_texture_view">Render: TextureView</string>
+
+    <string name="VideoView_player_none">Player: None</string>
+    <string name="VideoView_player_AndroidMediaPlayer">Player: AndroidMediaPlayer</string>
+    <string name="VideoView_player_IjkMediaPlayer">Player: IjkMediaPlayer</string>
+    <string name="VideoView_player_IjkExoMediaPlayer">Player: IjkExoMediaPlayer</string>
+
+    <string name="isRecording">正在录像</string>
+    <string name="before_preview_word">请连接到imagekit设备</string>
+    <string name="something_err">很抱歉,程序出现异常,即将退出.</string>
+    <string name="Reminder">温馨提示</string>
+    <string name="send_err">系统检测到上次异常退出，是否发送报告,需要连接至互联网</string>
+    <string name="send">发送</string>
+    <string name="no_send">不发送</string>
+    <string name="cancle">取消</string>
+    <string name="select">选择</string>
+    <string name="setting_back_button_contentDescription">返回</string>
+    <string name="please_camera">请插入摄像头</string>
+    <string name="resolution">分辨率</string>
+    <string name="click_back_again">再按一次退出程序</string>
+
+</resources>

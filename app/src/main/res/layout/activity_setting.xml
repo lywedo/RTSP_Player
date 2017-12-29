@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -18,7 +19,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:background="@drawable/bg_back_arrow_white_selector"
-            android:padding="10dp"
+            android:padding="12dp"
             android:contentDescription="@string/setting_back_button_contentDescription"/>
 
         <TextView
