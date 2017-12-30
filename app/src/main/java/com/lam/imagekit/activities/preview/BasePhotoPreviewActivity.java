@@ -43,7 +43,6 @@ public class BasePhotoPreviewActivity extends BaseActivity implements OnClickLis
             decorView.setSystemUiVisibility(option);
             getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
         }
-        requestWindowFeature(Window.FEATURE_NO_TITLE);// ȥ��������
         setContentView(R.layout.activity_photopreview);
         layoutTop = (RelativeLayout) findViewById(R.id.layout_top_app);
         btnBack = (ImageButton) findViewById(R.id.btn_back_app);

@@ -27,7 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.CameraActivity" >
+            android:name=".activities.SplashActivity" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".activities.CameraActivity"/>
         <activity android:name=".activities.ReviewActivity"/>
         <activity android:name=".activities.PhotoListActivity"/>
         <activity android:name=".activities.VideoListActivity"/>

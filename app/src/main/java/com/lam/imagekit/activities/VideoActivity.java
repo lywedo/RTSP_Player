@@ -42,6 +42,7 @@ import com.lam.imagekit.utils.RecentMediaStorage;
 import com.lam.imagekit.widget.media.AndroidMediaController;
 import com.lam.imagekit.widget.media.IjkVideoView;
 
+import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.misc.ITrackInfo;
 
@@ -118,7 +119,13 @@ public class VideoActivity extends AppCompatActivity implements TracksFragment.I
         mVideoView.setAspectRatio(AR_ASPECT_FIT_PARENT);
         mVideoView.setMediaController(mMediaController);
         mVideoView.setHudView(mHudView);
-
+        mVideoView.setOnErrorListener(new IMediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(IMediaPlayer mp, int what, int extra) {
+                finish();
+                return true;
+            }
+        });
         mHudView.setVisibility(View.GONE);
 
         // prefer mVideoPath

@@ -9,18 +9,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/layout_title_heigh"
         android:background="@color/main_color">
 
         <ImageButton
             android:id="@+id/setting_backButton"
             android:layout_width="@dimen/layout_title_content_heigh"
             android:layout_height="@dimen/layout_title_content_heigh"
-            android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/bg_back_arrow_white_selector"
-            android:padding="12dp"
-            android:contentDescription="@string/setting_back_button_contentDescription"/>
+            android:contentDescription="@string/setting_back_button_contentDescription"
+            android:paddingLeft="28dp"
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/setting_version_textView"

@@ -6,8 +6,8 @@
     <dimen name="ijk_horizontal_margin">@dimen/activity_horizontal_margin</dimen>
     <dimen name="ijk_vertical_margin">@dimen/activity_vertical_margin</dimen>
 
-    <!-- Title Ïà¹Ø¸ß¶È -->
-    <dimen name="layout_title_heigh">45dp</dimen>
+    <!-- Title ï¿½ï¿½Ø¸ß¶ï¿½ -->
+    <dimen name="layout_title_heigh">56dp</dimen>
     <dimen name="layout_title_content_heigh">30dp</dimen>
     <dimen name="layout_title_mini_textsize">16sp</dimen>
 
