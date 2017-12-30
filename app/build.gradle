@@ -22,10 +22,12 @@ android {
 //    compileSdkVersion 26
     defaultConfig {
         applicationId "com.lam.imagekit"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
-        versionCode 1
         versionName "1.0"
+        versionNameSuffix "."+getAutoVersionCode()+"-"+getGitVersion()
+        versionCode getAutoVersionCode()
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
     }
@@ -73,11 +75,10 @@ android {
     productFlavors {
 //        all32 { minSdkVersion 14 }
         all64 {
-            minSdkVersion 17
             applicationId 'com.lam.imagekit'
-            versionNameSuffix "."+getAutoVersionCode()+"-"+getGitVersion()
-            versionCode getAutoVersionCode()
-
+        }
+        imagebox {
+            applicationId 'com.lam.imagekit.imagebox'
         }
 
     }
