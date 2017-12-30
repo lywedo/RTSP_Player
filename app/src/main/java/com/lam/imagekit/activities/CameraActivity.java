@@ -182,7 +182,12 @@ public class CameraActivity extends BaseActivity {
             public int process(int what, int param1, int parma2) {
                 switch (what){
                     case MSG_CAMERABROADCTRL_TAKEPHOTOS:
-                        takePicture();
+                        CameraActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                takePicture();
+                            }
+                        });
                         break;
                 }
                 return 0;
