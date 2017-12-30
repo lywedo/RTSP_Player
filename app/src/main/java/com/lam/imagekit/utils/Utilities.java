@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -27,7 +28,8 @@ public class Utilities {
     private static final String CARD_MEDIA_VIDEO_PATH_NAME = "Video";
     public static final String THUMBLENAIL_PATH_NAME = "Thumbnail";
     // 照片和视频的扩展名
-    private static final String PHOTO_FILE_EXTENSION = "png";
+    private static final String PHOTO_FILE_EXTENSION_PNG = "png";
+    private static final String PHOTO_FILE_EXTENSION_JPG = "jpg";
     private static final String VIDEO_FILE_EXTENSION = "avi";
 
     /**
@@ -134,7 +136,7 @@ public class Utilities {
                 try {
                     String filePath = file.getCanonicalPath();
                     String extension = filePath.substring(filePath.lastIndexOf(".") + 1);
-                    if (extension.equalsIgnoreCase(PHOTO_FILE_EXTENSION)) {
+                    if (extension.equalsIgnoreCase(PHOTO_FILE_EXTENSION_PNG) || extension.equalsIgnoreCase(PHOTO_FILE_EXTENSION_JPG)) {
                         return true;
                     }
                 }
@@ -333,6 +335,20 @@ public class Utilities {
             return String.format(Locale.getDefault(), "%1.2f KB", kilobytes);
         else
             return String.format(Locale.getDefault(), "%1.0f bytes", bytes);
+    }
+
+    public static String patchThumbName(String name){
+        File file = new File(getThumbnailsPath());
+        if (!file.exists()){
+            return "";
+        }
+        File[] fillAll = file.listFiles();
+        for (int i = 0; i < fillAll.length; i++) {
+            if (fillAll[i].getName().split("\\.")[0] .equals(name.split("\\.")[0])){
+                return fillAll[i].getName();
+            }
+        }
+        return "";
     }
 
 }

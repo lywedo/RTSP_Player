@@ -103,7 +103,7 @@ public class VideoListActivity extends MediaListActivity {
 
                 holder.tv.setText(videoFileName);
                 Log.d("image",videoFilePath);
-                Glide.with(VideoListActivity.this).load(Utilities.getThumbnailsPath()+"/"+videoFileName.replace(".avi",".png")).into(holder.iv);
+                Glide.with(VideoListActivity.this).load(Utilities.getThumbnailsPath()+"/"+Utilities.patchThumbName(videoFileName)).into(holder.iv);
 
                 return convertView;
             }

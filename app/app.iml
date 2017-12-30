@@ -190,10 +190,5 @@
     <orderEntry type="module" module-name="ijkplayer-x86" />
     <orderEntry type="module" module-name="ijkplayer-arm64" />
     <orderEntry type="module" module-name="ijkplayer-armv7a" />
-    <orderEntry type="module" module-name="ijkplayer-x86_64" />
-    <orderEntry type="module" module-name="ijkplayer-java" />
-    <orderEntry type="module" module-name="ijkplayer-x86" />
-    <orderEntry type="module" module-name="ijkplayer-arm64" />
-    <orderEntry type="module" module-name="ijkplayer-armv7a" />
   </component>
 </module>
