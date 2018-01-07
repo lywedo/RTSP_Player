@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_color"
+    android:id="@+id/rl_main"
     tools:context="com.lam.imagekit.activities.CameraActivity">
 
     <!--背景、视频播放界面、进度条-->
@@ -39,7 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="请连接到imagekit设备"
+            android:text="@string/before_preview_word"
             android:textColor="#fff"
             android:textSize="15dp" />
 
@@ -87,7 +88,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@mipmap/con_photo" />
+            android:src="@drawable/button_photo" />
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -112,7 +113,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@mipmap/con_rotate90_screen" />
+            android:src="@drawable/button_rotate_screen" />
 
         <ImageButton
             android:id="@+id/control_panel_review_button"
@@ -121,7 +122,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@mipmap/con_media" />
+            android:src="@drawable/button_media" />
 
         <ImageButton
             android:id="@+id/control_panel_setting_button"
@@ -130,7 +131,7 @@
             android:layout_weight="1"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@mipmap/con_extra_settings" />
+            android:src="@drawable/button_extra_settings" />
     </LinearLayout>
     <!--右侧一列按键-->
     <LinearLayout
@@ -144,22 +145,22 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <ImageButton
-            android:id="@+id/control_panel_full_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/con_flat"/>
+
         <ImageButton
             android:id="@+id/control_panel_resolution_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:scaleType="fitCenter"
-            android:src="@mipmap/fen" />
+            android:src="@drawable/button_resolution" />
 
-
+        <ImageButton
+            android:id="@+id/control_panel_full_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/button_full" />
         <!--<ImageButton-->
             <!--android:id="@+id/control_panel_light_button"-->
             <!--android:layout_width="wrap_content"-->

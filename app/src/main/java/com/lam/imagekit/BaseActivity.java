@@ -80,4 +80,8 @@ public class BaseActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public void initSplash(){
+
+    }
 }

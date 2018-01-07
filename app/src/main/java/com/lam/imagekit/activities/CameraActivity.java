@@ -14,16 +14,22 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,6 +101,7 @@ public class CameraActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        initSplash();
         initPermission();
         initSound();
         initViews();
@@ -246,11 +253,16 @@ public class CameraActivity extends BaseActivity {
                         if (file.exists()) {
                             mediaScan(file);
                             // Show toast
-                            toastText = getResources().getString(R.string.control_panel_alert_save_photo_success) + fileName;
+//                            toastText = getResources().getString(R.string.control_panel_alert_save_photo_success) + fileName;
+                            toastText = getResources().getString(R.string.take_photo_ok);
                         }
-                        Toast.makeText(CameraActivity.this, toastText, Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(CameraActivity.this, toastText, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     } else if (resultCode < 0) {
-                        Toast.makeText(CameraActivity.this, toastText, Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(CameraActivity.this, toastText, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 }
             }
@@ -302,12 +314,15 @@ public class CameraActivity extends BaseActivity {
                             File file = new File(fileName);
                             mediaScan(file);
 
-                            noteText = getResources().getString(R.string.control_panel_alert_record_video_success);
-                            Toast.makeText(
-                                    CameraActivity.this,
-                                    noteText + fileName,
-                                    Toast.LENGTH_SHORT
-                            ).show();
+//                            noteText = getResources().getString(R.string.control_panel_alert_record_video_success);
+//                            Toast.makeText(
+//                                    CameraActivity.this,
+//                                    noteText + fileName,
+//                                    Toast.LENGTH_SHORT
+//                            ).show();
+                            Toast toast = Toast.makeText(CameraActivity.this, getResources().getString(R.string.take_video_ok), Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                             mTakeVideoButton.setImageResource(R.mipmap.con_video);
                             // 隐藏录像计时器
                             showChronometer(false);
@@ -590,7 +605,7 @@ public class CameraActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                mSettingButton.setImageResource(R.mipmap.con_extra_settings);
+//                mSettingButton.setImageResource(R.mipmap.con_extra_settings);
                 setButtonsVisible(false);
             }
         }.start();

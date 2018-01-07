@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:background="@color/review_background_color"
+    android:layout_height="match_parent">
+    <!--android:padding="130dp"-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_title_heigh"
+        android:background="@color/title_color">
+
+        <ImageButton
+            android:id="@+id/media_back_button"
+            android:layout_width="@dimen/layout_title_content_heigh"
+            android:layout_height="@dimen/layout_title_content_heigh"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_back_arrow_white_selector"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/review_photo_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/photo_library"
+            android:background="#00000000"/>
+        <ImageButton
+            android:id="@+id/review_video_button"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/video_library"
+            android:background="#00000000"/>
+    </LinearLayout>
+</android.support.v7.widget.LinearLayoutCompat>

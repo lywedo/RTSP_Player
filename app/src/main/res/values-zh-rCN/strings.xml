@@ -90,5 +90,7 @@
     <string name="please_camera">请插入摄像头</string>
     <string name="resolution">分辨率</string>
     <string name="click_back_again">再按一次退出程序</string>
+    <string name="take_photo_ok">拍照成功</string>
+    <string name="take_video_ok">录像成功</string>
 
 </resources>

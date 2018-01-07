@@ -38,4 +38,7 @@
     <color name="main_color">#391b39</color>
     <color name="white">#fff</color>
 
+    <color name="review_background_color">#FFF</color>
+    <color name="title_color">#22292c</color>
+
 </resources>

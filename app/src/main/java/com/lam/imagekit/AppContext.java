@@ -28,6 +28,7 @@ public class AppContext extends Application {
 
     private CameraBroadCtrl m_broadCtrl;
     private boolean deviceOnline;
+    public boolean splashed = false;
 
     @Override
     public void onCreate() {

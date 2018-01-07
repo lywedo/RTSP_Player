@@ -85,7 +85,7 @@ public abstract class MediaListActivity extends AppCompatActivity {
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.title_color));
         }
 
         initContentView(R.layout.activity_media_list);

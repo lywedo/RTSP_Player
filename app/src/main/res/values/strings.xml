@@ -90,5 +90,7 @@
     <string name="please_camera">Please insert the camera</string>
     <string name="resolution">Resolution ratio</string>
     <string name="click_back_again">One more exit program</string>
+    <string name="take_photo_ok">Photo success</string>
+    <string name="take_video_ok">Video success</string>
 
 </resources>

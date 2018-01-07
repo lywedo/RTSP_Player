@@ -7,7 +7,7 @@
     <dimen name="ijk_vertical_margin">@dimen/activity_vertical_margin</dimen>
 
     <!-- Title ��ظ߶� -->
-    <dimen name="layout_title_heigh">56dp</dimen>
+    <dimen name="layout_title_heigh">46dp</dimen>
     <dimen name="layout_title_content_heigh">30dp</dimen>
     <dimen name="layout_title_mini_textsize">16sp</dimen>
 

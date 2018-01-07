@@ -1,11 +1,17 @@
 package com.lam.imagekit.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.lam.imagekit.AppContext;
+import com.lam.imagekit.BuildConfig;
+import com.lam.imagekit.activities.ReviewActivity;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -19,7 +25,7 @@ import java.util.Locale;
 public class Utilities {
 
     // 主目录名
-    private static final String HOME_PATH_NAME = "imagekit";
+    private static  String HOME_PATH_NAME = "imagekit";
     // 照片和视频的子目录名
     private static final String PHOTO_PATH_NAME = "Image";
     public static final String VIDEO_PATH_NAME = "Movie";
@@ -31,6 +37,12 @@ public class Utilities {
     private static final String PHOTO_FILE_EXTENSION_PNG = "png";
     private static final String PHOTO_FILE_EXTENSION_JPG = "jpg";
     private static final String VIDEO_FILE_EXTENSION = "avi";
+
+    static {
+        String[] packageName = AppContext.getInstance().getPackageName().split("\\.");
+        HOME_PATH_NAME = packageName[packageName.length - 1];
+//        HOME_PATH_NAME = BuildConfig.FLAVOR;
+    }
 
     /**
      * 获取应用数据主目录

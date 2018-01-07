@@ -2,20 +2,10 @@ package com.lam.imagekit.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
 import com.lam.imagekit.BuildConfig;
-import com.lam.imagekit.R;
+
 
 
 /**
@@ -29,20 +19,18 @@ public class SplashActivity extends Activity {
         if (BuildConfig.FLAVOR.equals("imagebox")){
 //            requestWindowFeature(Window.FEATURE_NO_TITLE); //设置无标题
 //            getWindow().setFlags(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);  //设置全屏
-            setContentView(R.layout.activity_splash);
-            handler.sendMessageDelayed(new Message(), 2000);
+//            getWindow().getDecorView().setBackgroundResource(R.mipmap.splash);
+//            setContentView(R.layout.activity_splash);
+//            handler.sendMessageDelayed(new Message(), 2000);
+            try {
+                startActivity(new Intent(this, Class.forName("com.lam.imagekit.activities.BoxCameraActivity")));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }else {
             startActivity(new Intent(this, CameraActivity.class));
-            finish();
         }
+            finish();
     }
 
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            startActivity(new Intent(SplashActivity.this, CameraActivity.class));
-            finish();
-        }
-    };
 }

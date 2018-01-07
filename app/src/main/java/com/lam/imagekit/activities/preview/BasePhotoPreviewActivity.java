@@ -41,7 +41,7 @@ public class BasePhotoPreviewActivity extends BaseActivity implements OnClickLis
             int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(getResources().getColor(R.color.main_color));
+            getWindow().setStatusBarColor(getResources().getColor(R.color.title_color));
         }
         setContentView(R.layout.activity_photopreview);
         layoutTop = (RelativeLayout) findViewById(R.id.layout_top_app);
