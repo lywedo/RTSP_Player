@@ -3,12 +3,10 @@ package com.lam.imagekit.activities;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
-import android.media.AudioAttributes;
-import android.media.AudioManager;
+import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
-import android.media.SoundPool;
 import android.net.Uri;
-import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
@@ -81,7 +79,6 @@ public class CameraActivity extends BaseActivity {
     TextView mPointText;
     String mVideoPath;
     TableLayout mHudView;
-    SoundPool mSoundPool;
     ImageButton mRotateButton;
     ImageButton mFullButton;
     ImageView mResolutionButton;
@@ -103,20 +100,47 @@ public class CameraActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         initSplash();
         initPermission();
-        initSound();
         initViews();
         setVideo();
     }
+    SplashFragment splashFragment;
+    public void initSplash() {
+        if (AppContext.getInstance().splashed){
+            return;
+        }
+        splashFragment = new SplashFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rl_main, splashFragment).commit();
+        splashHandler.sendEmptyMessageDelayed(0, 3000);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                SplashFragment splashFragment = new SplashFragment();
+//                getSupportFragmentManager().beginTransaction().add(R.id.rl_main, splashFragment).commit();
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                getSupportFragmentManager().beginTransaction().remove(splashFragment).commit();
+//            }
+//        }).start();
+    }
+    Handler splashHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            getSupportFragmentManager().beginTransaction().remove(splashFragment).commit();
+        }
+    };
 
-    private void initDisplayMetrics() {
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
+    public static class SplashFragment extends Fragment{
 
-        mScaleX = ((float) dm.heightPixels/(float) mVideoView.getMeasuredWidth());
-        mScaleY = ((float) dm.widthPixels/(float) mVideoView.getMeasuredHeight());
-        Log.d("full", "dm.heightPixels:"+dm.heightPixels+"mVideoView.getWidth()"+mVideoView.getWidth());
-        Log.d("full", "x"+mScaleX+"Y"+mScaleY);
-
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            AppContext.getInstance().splashed = true;
+            return inflater.inflate(R.layout.activity_splash, container, false);
+        }
     }
 
     private void initPermission() {
@@ -127,23 +151,23 @@ public class CameraActivity extends BaseActivity {
 //            return true;
         }
     }
-
-    private void initSound() {
-        // 载入声音资源
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            SoundPool.Builder builder = new SoundPool.Builder();
-            builder.setMaxStreams(1);
-
-            AudioAttributes.Builder attrBuilder = new AudioAttributes.Builder();
-            attrBuilder.setLegacyStreamType(AudioManager.STREAM_SYSTEM);
-
-            builder.setAudioAttributes(attrBuilder.build());
-            mSoundPool = builder.build();
-        } else {
-            mSoundPool = new SoundPool(1, AudioManager.STREAM_SYSTEM, 5);
-        }
-        mSoundPool.load(this, R.raw.shutter, 1);
+    private void takePhotoSound(){
+        MediaPlayer music;
+        music = MediaPlayer.create(this, R.raw.shutter);
+        music.start();
+        music.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+            }
+        });
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
+
 
     private Handler m_handler = new Handler();
     @Override
@@ -157,8 +181,8 @@ public class CameraActivity extends BaseActivity {
             public boolean onInfo(IMediaPlayer mp, int what, int extra) {
                 switch (what) {
                     case IMediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
-                        rotatoin = 90;
-                        mVideoView.setVideoRotation(rotatoin);
+
+                        updataRotation(rotatoin);
                         m_handler.post(new Runnable() {
                             @Override
                             public void run() {
@@ -247,7 +271,7 @@ public class CameraActivity extends BaseActivity {
                 if (!recording){
                     if (resultCode == 1) {
                         // 播放咔嚓声
-                        mSoundPool.play(1, 1, 1, 0, 0, 1);
+                        takePhotoSound();
                     } else if (resultCode == 0 && fileName != null) {
                         File file = new File(fileName);
                         if (file.exists()) {
@@ -399,8 +423,7 @@ public class CameraActivity extends BaseActivity {
     private int rotatoin = 0;
     private void rotate90(){
         rotatoin += 90;
-        rotatoin %= 360;
-        mVideoView.setVideoRotation(rotatoin);
+        updataRotation(rotatoin);
     }
     private void initViews() {
         /**
@@ -625,7 +648,7 @@ public class CameraActivity extends BaseActivity {
         super.onDestroy();
         IjkMediaPlayer.getMessageBus().unregister(this);
 
-        mSoundPool.release();
+//        mSoundPool.release();
 
         IjkMediaPlayer.native_profileEnd();
     }
@@ -683,4 +706,54 @@ public class CameraActivity extends BaseActivity {
             super.handleMessage(msg);
         }
     };
+
+    private int updataRotation(int rotation){
+        int rotationBase = 0;
+        if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            rotationBase = 0;
+        } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rotationBase = 90;
+        }
+
+        int r = rotation + rotationBase;
+        r %= 360;
+
+        mVideoView.setVideoRotation(r);
+
+        return 0;
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        updataRotation(rotatoin);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams rightParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            mControlLayout.setOrientation(LinearLayout.VERTICAL);
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.CENTER_VERTICAL);
+            params.rightMargin = Utilities.dip2px(this,20);
+            for (int i = 0; i < mControlLayout.getChildCount(); i++) {
+                LinearLayout.LayoutParams childParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                mControlLayout.getChildAt(i).setLayoutParams(childParams);
+            }
+
+            mControlRightLayout.setOrientation(LinearLayout.HORIZONTAL);
+            rightParams.addRule(RelativeLayout.LEFT_OF, mControlLayout.getId());
+            rightParams.addRule(RelativeLayout.ALIGN_BOTTOM, mControlLayout.getId());
+        }else {
+            mControlLayout.setOrientation(LinearLayout.HORIZONTAL);
+            mControlLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
+            params.rightMargin = 0;
+            params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+            params.bottomMargin = Utilities.dip2px(this,20);
+            mControlRightLayout.setOrientation(LinearLayout.VERTICAL);
+            rightParams.addRule(RelativeLayout.ALIGN_RIGHT, mControlLayout.getId());
+            rightParams.addRule(RelativeLayout.ABOVE, mControlLayout.getId());
+        }
+        mControlLayout.setLayoutParams(params);
+        mControlRightLayout.setLayoutParams(rightParams);
+    }
 }

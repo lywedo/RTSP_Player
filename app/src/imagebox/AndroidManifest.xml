@@ -3,7 +3,7 @@
     package="com.lam.imagekit">
 
     <application>
-        <activity android:name=".activities.BoxCameraActivity"/>
+        <activity android:name=".activities.BoxCameraActivity" android:configChanges="screenSize|orientation"/>
     </application>
 
 </manifest>

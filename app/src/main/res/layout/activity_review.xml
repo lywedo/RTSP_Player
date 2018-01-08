@@ -20,7 +20,6 @@
             android:layout_height="@dimen/layout_title_content_heigh"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/bg_back_arrow_white_selector"
             android:paddingLeft="28dp" />
 

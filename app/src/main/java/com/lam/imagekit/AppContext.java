@@ -22,7 +22,7 @@ import static com.lam.imagekit.utils.CrashHandler.GETCRASH;
  */
 
 public class AppContext extends Application {
-    private static final String BUGLY_ID = "d2ec6c5fae";
+    private static final String BUGLY_ID = "d0444b752f";
     protected static AppContext instance;
     private CameraParam cameraParam = new CameraParam();
 
