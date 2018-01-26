@@ -53,7 +53,11 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.lam.imagekit.application.Constants.CODE_WRITE_EXTERNAL_STORAGE;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_AD_VALUE;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_START_APP;
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_TAKEPHOTOS;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMIN;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMOUT;
 import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
 import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
 import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
@@ -217,6 +221,22 @@ public class CameraActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 takePicture();
+                            }
+                        });
+                        break;
+                    case MSG_CAMERABROADCTRL_ZOOMIN:
+                        CameraActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CameraActivity.this, "zoomin", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        break;
+                    case MSG_CAMERABROADCTRL_ZOOMOUT:
+                        CameraActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(CameraActivity.this, "zoomout", Toast.LENGTH_SHORT).show();
                             }
                         });
                         break;

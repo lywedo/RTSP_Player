@@ -41,7 +41,8 @@ public class CameraBroadCtrl {
     public static final int MSG_CAMERABROADCTRL_TAKEPHOTOS = 1;
     public static final int MSG_CAMERABROADCTRL_START_APP = 2;
     public static final int MSG_CAMERABROADCTRL_AD_VALUE = 3;
-
+    public static final int MSG_CAMERABROADCTRL_ZOOMIN = 4;
+    public static final int MSG_CAMERABROADCTRL_ZOOMOUT = 5;
     private static final boolean USE_JNI = true;
     static {
         System.loadLibrary("broadctrl_jni");

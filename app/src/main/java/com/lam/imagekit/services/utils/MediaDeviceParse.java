@@ -9,6 +9,8 @@ import com.lam.imagekit.data.CameraParam;
 import com.lam.imagekit.services.CameraBroadCtrl;
 
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_TAKEPHOTOS;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMIN;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMOUT;
 
 /**
  * Created by sknown on 2017/12/16.
@@ -129,7 +131,16 @@ public class MediaDeviceParse {
         if (gpioParam != null){
             val = gpioParam.getVal();
             String name = gpioParam.getName();
+            name = name.trim();
             int msg = MSG_CAMERABROADCTRL_TAKEPHOTOS;
+            if("takepic".equalsIgnoreCase(name)){
+                msg = MSG_CAMERABROADCTRL_TAKEPHOTOS;
+            }else if("zoomin".equalsIgnoreCase(name)){
+                msg = MSG_CAMERABROADCTRL_ZOOMIN;
+            }else if("zoomout".equalsIgnoreCase(name)){
+                msg = MSG_CAMERABROADCTRL_ZOOMOUT;
+            }
+
             if (mCameraBroadCtrlCallback != null){
                 mCameraBroadCtrlCallback.process(msg, val, 0);
             }
