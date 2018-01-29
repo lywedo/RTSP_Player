@@ -372,10 +372,11 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
         return (float) Math.toDegrees(radians);
     }
 
-        private int m_rotate = 0;
+    private int m_rotate = 0;
     private int m_rotate_status = 0;
     private void rotate(Matrix matrix, int rotate){
         matrix.postRotate(rotate, getWidth()/2, getHeight()/2);
+        checkEdge(matrix,true, true);
     }
 
     public void rotate(int rotate){
