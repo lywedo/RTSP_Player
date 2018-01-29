@@ -3,18 +3,18 @@ package com.lam.imagekit.activities;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,14 +53,15 @@ import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.lam.imagekit.application.Constants.CODE_WRITE_EXTERNAL_STORAGE;
-import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_AD_VALUE;
-import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_START_APP;
+import static com.lam.imagekit.services.CameraBroadCtrl.MSG_BTN_PARAM_LONG_PRESS;
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_TAKEPHOTOS;
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMIN;
 import static com.lam.imagekit.services.CameraBroadCtrl.MSG_CAMERABROADCTRL_ZOOMOUT;
 import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
 import static com.lam.imagekit.widget.media.IjkVideoView.RENDER_TEXTURE_VIEW;
 import static com.lam.imagekit.widget.media.IjkVideoView.RTP_JPEG_PARSE_PACKET_METHOD_FILL;
+
+//import com.lam.imagekit.widget.multi_image_selector.MultiImageSelectorActivity;
 
 public class CameraActivity extends BaseActivity {
     private static final String TAG = "CamereActivity";
@@ -90,8 +91,6 @@ public class CameraActivity extends BaseActivity {
     Chronometer mChronometer;
     boolean isButtonsVisible = true;    // 3D View中Buttons是否可见
     CountDownTimer hideButtonsTimer;    // 隐藏按键的倒计时(3D View)
-    float mScaleX = -1;
-    float mScaleY = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,19 +114,6 @@ public class CameraActivity extends BaseActivity {
         splashFragment = new SplashFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.rl_main, splashFragment).commit();
         splashHandler.sendEmptyMessageDelayed(0, 3000);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                SplashFragment splashFragment = new SplashFragment();
-//                getSupportFragmentManager().beginTransaction().add(R.id.rl_main, splashFragment).commit();
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                getSupportFragmentManager().beginTransaction().remove(splashFragment).commit();
-//            }
-//        }).start();
     }
     Handler splashHandler = new Handler(){
         @Override
@@ -165,11 +151,6 @@ public class CameraActivity extends BaseActivity {
                 mediaPlayer.release();
             }
         });
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
     }
 
 
@@ -200,8 +181,7 @@ public class CameraActivity extends BaseActivity {
             }
         });
         mVideoView.setRender(VIDEO_VIEW_RENDER);
-        mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT );
-        isFull = false;
+        mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT );
         mVideoView.setVideoPath(mVideoPath);
         mVideoView.start();
     }
@@ -209,18 +189,27 @@ public class CameraActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        updateScreen();
 
         AppContext.getInstance().getBroadCtrl().hello();
         AppContext.getInstance().getBroadCtrl().getuvc();
         AppContext.getInstance().getBroadCtrl().setCameraBroadCtrlCallback(new CameraBroadCtrl.CameraBroadCtrlCallback() {
             @Override
-            public int process(int what, int param1, int parma2) {
+            public int process(int what, final int param1, int parma2) {
                 switch (what){
                     case MSG_CAMERABROADCTRL_TAKEPHOTOS:
                         CameraActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                takePicture();
+                                if(MSG_BTN_PARAM_LONG_PRESS == param1){
+                                    record();
+                                }else {
+                                    if(recording){
+                                        record();
+                                    }else {
+                                        takePicture();
+                                    }
+                                }
                             }
                         });
                         break;
@@ -228,7 +217,8 @@ public class CameraActivity extends BaseActivity {
                         CameraActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(CameraActivity.this, "zoomin", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(CameraActivity.this, "zoomin", Toast.LENGTH_SHORT).show();
+                                mVideoView.scaleDownView();
                             }
                         });
                         break;
@@ -236,7 +226,8 @@ public class CameraActivity extends BaseActivity {
                         CameraActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(CameraActivity.this, "zoomout", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(CameraActivity.this, "zoomout", Toast.LENGTH_SHORT).show();
+                                mVideoView.scaleUpView();
                             }
                         });
                         break;
@@ -382,7 +373,7 @@ public class CameraActivity extends BaseActivity {
         mVideoView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                         if (isButtonsVisible) {
                             setButtonsVisible(false);
                             if (hideButtonsTimer != null) {
@@ -439,7 +430,6 @@ public class CameraActivity extends BaseActivity {
             }
         }
     }
-    boolean isFull = false;
     private int rotatoin = 0;
     private void rotate90(){
         rotatoin += 90;
@@ -480,43 +470,20 @@ public class CameraActivity extends BaseActivity {
         mFullButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isFull = !isFull;
-                fullScreen(isFull);
+                fullScreenSwitch();
             }
         });
         mAlbumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(CameraActivity.this, ReviewActivity.class));
+//                startActivity(new Intent(CameraActivity.this, MultiImageSelectorActivity.class));
             }
         });
         mTakeVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (recording) {
-                    mVideoView.stopRecordVideo();
-                }
-                else {
-                    mFreeSpaceMonitor = new FreeSpaceMonitor();
-                    if (mFreeSpaceMonitor.checkFreeSpace()) {
-                        String videoFilePath = Utilities.getVideoDirPath();
-                        String videoFileName = Utilities.getMediaFileName();
-                        // Start to record video
-                        try {
-                            mVideoView.startRecordVideo(videoFilePath, videoFileName + ".avi", -1, -1);
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    else {
-                        // 提示剩余空间不足
-                        long threshold = mFreeSpaceMonitor.getThreshold();
-                        float megabytes = threshold / (1024 * 1024);
-                        String toastString = getResources().getString(R.string.control_panel_insufficient_storage_alert, megabytes);
-                        Toast.makeText(CameraActivity.this, toastString, Toast.LENGTH_SHORT).show();
-                    }
-                }
+                record();
             }
         });
         mSettingButton.setOnClickListener(new View.OnClickListener() {
@@ -550,6 +517,32 @@ public class CameraActivity extends BaseActivity {
         });
     }
 
+    private void record(){
+        if (recording) {
+            mVideoView.stopRecordVideo();
+        }
+        else {
+            mFreeSpaceMonitor = new FreeSpaceMonitor();
+            if (mFreeSpaceMonitor.checkFreeSpace()) {
+                String videoFilePath = Utilities.getVideoDirPath();
+                String videoFileName = Utilities.getMediaFileName();
+                // Start to record video
+                try {
+                    mVideoView.startRecordVideo(videoFilePath, videoFileName + ".avi", -1, -1);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                // 提示剩余空间不足
+                long threshold = mFreeSpaceMonitor.getThreshold();
+                float megabytes = threshold / (1024 * 1024);
+                String toastString = getResources().getString(R.string.control_panel_insufficient_storage_alert, megabytes);
+                Toast.makeText(CameraActivity.this, toastString, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     /**
      * 播放开始后执行
      */
@@ -673,32 +666,12 @@ public class CameraActivity extends BaseActivity {
         IjkMediaPlayer.native_profileEnd();
     }
 
-    private void fullScreen(boolean isFull){
-        if(isFull) {
+    private void fullScreenSwitch(){
+        if(mVideoView.getAspectRatio() == IRenderView.AR_ASPECT_FIT_PARENT) {
             mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FILL_PARENT);
         }else{
             mVideoView.setAspectRatio(IRenderView.AR_ASPECT_FIT_PARENT);
         }
-//        if (mScaleY < 0 && mScaleX < 0){
-//            initDisplayMetrics();
-//        }
-//        if (!isFull){
-//            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", 1f, mScaleX);
-//            animatorx.start();
-//            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", 1f, mScaleY);
-//            animatory.start();
-//            mVideoView.setScaleX(mScaleX);
-//            mVideoView.setScaleY(mScaleY);
-//            this.isFull = true;
-//        }else {
-//            ObjectAnimator animatorx = ObjectAnimator.ofFloat(mVideoView, "scaleX", mScaleX, 1f);
-//            animatorx.start();
-//            ObjectAnimator animatory = ObjectAnimator.ofFloat(mVideoView, "scaleY", mScaleY, 1f);
-//            animatory.start();
-//            mVideoView.setScaleX(mScaleX);
-//            mVideoView.setScaleY(mScaleY);
-//            this.isFull = false;
-//        }
     }
 
     private int backPressedTimes = 0;
@@ -742,14 +715,13 @@ public class CameraActivity extends BaseActivity {
 
         return 0;
     }
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+
+    private void updateScreen(){
 
         updataRotation(rotatoin);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         RelativeLayout.LayoutParams rightParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
             mControlLayout.setOrientation(LinearLayout.VERTICAL);
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             params.addRule(RelativeLayout.CENTER_VERTICAL);
@@ -776,4 +748,10 @@ public class CameraActivity extends BaseActivity {
         mControlLayout.setLayoutParams(params);
         mControlRightLayout.setLayoutParams(rightParams);
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateScreen();
+}
 }

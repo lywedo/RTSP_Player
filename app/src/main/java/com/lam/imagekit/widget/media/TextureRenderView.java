@@ -19,6 +19,7 @@ package com.lam.imagekit.widget.media;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Matrix;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -41,7 +42,7 @@ import tv.danmaku.ijk.media.player.ISurfaceTextureHolder;
 import tv.danmaku.ijk.media.player.ISurfaceTextureHost;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TextureRenderView extends TextureView implements IRenderView {
+public class TextureRenderView extends VideoTextureView {
     private static final String TAG = "TextureRenderView";
     private MeasureHelper mMeasureHelper;
 
@@ -94,11 +95,21 @@ public class TextureRenderView extends TextureView implements IRenderView {
     //--------------------
     @Override
     public void setVideoSize(int videoWidth, int videoHeight) {
-        if (videoWidth > 0 && videoHeight > 0) {
-            mMeasureHelper.setVideoSize(videoWidth, videoHeight);
+        super.setVideoSize(videoWidth, videoHeight);
+        View parentView = (View) getParent();
+
+        if (videoWidth > 0 && videoHeight > 0 && parentView != null) {
+            mMeasureHelper.setVideoSize(parentView.getWidth(), parentView.getHeight());
             requestLayout();
         }
     }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        mMeasureHelper.doMeasure(widthMeasureSpec, heightMeasureSpec);
+        setMeasuredDimension(mMeasureHelper.getMeasuredWidth(), mMeasureHelper.getMeasuredHeight());
+    }
+
 
     @Override
     public void setVideoSampleAspectRatio(int videoSarNum, int videoSarDen) {
@@ -111,21 +122,22 @@ public class TextureRenderView extends TextureView implements IRenderView {
     @Override
     public void setVideoRotation(int degree) {
         mMeasureHelper.setVideoRotation(degree);
-        setRotation(degree);
-        requestLayout();
+
+        rotate(degree);
+        //setRotation(degree);
+        //setBaseRotate(degree);//fixme for test sknown
+        //requestLayout();
     }
 
     @Override
     public void setAspectRatio(int aspectRatio) {
+        super.setAspectRatio(aspectRatio);
+
         mMeasureHelper.setAspectRatio(aspectRatio);
-        requestLayout();
+        //setfullscreen(aspectRatio == AR_ASPECT_FILL_PARENT);//fixme for test sknown
+        //requestLayout();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        mMeasureHelper.doMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(mMeasureHelper.getMeasuredWidth(), mMeasureHelper.getMeasuredHeight());
-    }
 
     //--------------------
     // TextureViewHolder

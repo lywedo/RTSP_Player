@@ -39,7 +39,7 @@ public class AppContext extends Application {
         }
         instance = this;
         final SharedPreferences preferences = this.getSharedPreferences(GETCRASH,MODE_PRIVATE);
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
         if (preferences.getInt(GETCRASH,0) == 0
                 || preferences.getInt(GETCRASH, 0)>3){
             AppContext.getInstance().setBugly();

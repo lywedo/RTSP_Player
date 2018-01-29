@@ -64,14 +64,29 @@ public final class MeasureHelper {
     public void setVideoRotation(int videoRotationDegree) {
         mVideoRotationDegree = videoRotationDegree;
     }
+    public void doMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int videoWidth = mVideoWidth;
+        int videoHeight = mVideoHeight;
 
+//        if(videoHeight == 0 && videoWidth == 0){
+//            mMeasuredWidth = 50;
+//            mMeasuredHeight = 50;
+//
+//            return ;
+//        }
+        int width = View.getDefaultSize(videoWidth, widthMeasureSpec);
+        int height = View.getDefaultSize(videoHeight, heightMeasureSpec);
+
+        mMeasuredWidth = width;
+        mMeasuredHeight = height;
+    }
     /**
      * Must be called by View.onMeasure(int, int)
      *
      * @param widthMeasureSpec
      * @param heightMeasureSpec
      */
-    public void doMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    public void doMeasure1(int widthMeasureSpec, int heightMeasureSpec) {
         int videoWidth = mVideoWidth;
         int videoHeight = mVideoHeight;
         //Log.i("@@@@", "onMeasure(" + MeasureSpec.toString(widthMeasureSpec) + ", "

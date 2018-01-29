@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -217,8 +218,8 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
 
         View renderUIView = mRenderView.getView();
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
         renderUIView.setLayoutParams(lp);
         addView(renderUIView);
@@ -228,6 +229,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mRenderView.setVideoRotation(mVideoRotationDegree);
     }
 
+    private TextureRenderView m_textureRenderView;
     public void setRender(int render) {
         switch (render) {
             case RENDER_NONE:
@@ -235,12 +237,15 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
                 break;
             case RENDER_TEXTURE_VIEW: {
                 TextureRenderView renderView = new TextureRenderView(getContext());
+                renderView.setOnTouchListener(m_touchListener);
+                renderView.setScaleEnable(m_scaleEnable);
                 if (mMediaPlayer != null) {
                     renderView.getSurfaceHolder().bindToMediaPlayer(mMediaPlayer);
                     renderView.setVideoSize(mMediaPlayer.getVideoWidth(), mMediaPlayer.getVideoHeight());
                     renderView.setVideoSampleAspectRatio(mMediaPlayer.getVideoSarNum(), mMediaPlayer.getVideoSarDen());
                     renderView.setAspectRatio(mCurrentAspectRatio);
                 }
+                m_textureRenderView = renderView;
                 setRenderView(renderView);
                 break;
             }
@@ -383,6 +388,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
     }
 
     public void setMediaController(IMediaController controller) {
+        setScaleEnable(false);
+        if(m_textureRenderView != null){
+            m_textureRenderView.setScaleEnable(false);
+        }
         if (mMediaController != null) {
             mMediaController.hide();
         }
@@ -784,6 +793,16 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         }
     }
 
+    private OnTouchListener m_touchListener;
+
+    public void setOnTouchListener(OnTouchListener l) {
+        m_touchListener = l;
+    }
+
+    private boolean m_scaleEnable = true;
+    public void setScaleEnable(boolean enable){
+        m_scaleEnable = enable;
+    }
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (isInPlaybackState() && mMediaController != null) {
@@ -995,6 +1014,14 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         return rotation180;
     }
 
+    public void scaleUpView(){
+        if (m_textureRenderView != null)
+            m_textureRenderView.scaleUpView();
+    }
+    public void scaleDownView(){
+        if (m_textureRenderView != null)
+            m_textureRenderView.scaleDownView();
+    }
     public void setVideoRotation(int rotation) throws IllegalStateException{
         //if (mMediaPlayer != null && mMediaPlayer.setVideoRotation(rotation)) {
            // this.rotation180 = !this.rotation180;
@@ -1054,6 +1081,10 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         mCurrentAspectRatio = aspectRatio;
         if (mRenderView != null)
             mRenderView.setAspectRatio(aspectRatio);
+    }
+
+    public int getAspectRatio(){
+        return mCurrentAspectRatio;
     }
 
     //-------------------------
