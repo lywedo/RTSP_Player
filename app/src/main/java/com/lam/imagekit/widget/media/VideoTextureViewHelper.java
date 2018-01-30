@@ -1,29 +1,23 @@
 package com.lam.imagekit.widget.media;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
-import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 
-import com.lam.imagekit.AppContext;
+import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FILL_PARENT;
+import static com.lam.imagekit.widget.media.IRenderView.AR_ASPECT_FIT_PARENT;
 
 /**
- * Created by Lam on 2017/9/4.
+ * Created by sknown on 2018/1/30.
  */
 
-public abstract class VideoTextureView extends TextureView implements IRenderView {
+public class VideoTextureViewHelper {
     private float DEFAULT_SCALE = 1.0f;
     /** 最小缩放比例*/
     private float MIN_SCALE = DEFAULT_SCALE;
@@ -47,66 +41,31 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
     private static final int ZOOM = 2;
     int mode = NONE;
 
-
-
-    private final String TAG = "TouchImageView";
-
-    public VideoTextureView(Context context) {
-        this(context,null);
-    }
-
-    /**
-     * 该构造方法在静态引入XML文件中是必须的
-     *
-     * @param context
-     * @param
-     */
-
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public VideoTextureView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs,defStyleAttr, defStyleRes);
-        this.context = context;
-    }
-    public VideoTextureView(Context context, AttributeSet attrs, int defStyleAttr){
-        super(context, attrs, defStyleAttr);
-        this.context = context;
-    }
-    public VideoTextureView(Context context, AttributeSet paramAttributeSet) {
-        super(context, paramAttributeSet);
-        this.context = context;
-    }
-
-
     private int m_videoWidth;
     private int m_videoHeight;
-    protected void updateTextureViewSizeCenterCrop(){
+
+    private TextureView m_textureView;
+    public VideoTextureViewHelper(TextureView textureView){
+        m_textureView = textureView;
+    }
+
+    public void updateTextureViewSizeCenterCrop(){
         Matrix matrix = getOrgMatrix();
         Matrix matrixOrg = new Matrix();
         matrixOrg.set(matrix);
         rotate(matrix, m_rotate);
-        setTransform(matrix);
-        postInvalidate();
-
-//        setTransform(new Matrix());
-//        postInvalidate();
+        m_textureView.setTransform(matrix);
+        m_textureView.postInvalidate();
     }
 
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        updateTextureViewSizeCenterCrop();
-    }
-
-    private int m_currentAspectRatio = IRenderView.AR_ASPECT_FIT_PARENT;
-
-    @Override
+    private int m_currentAspectRatio = AR_ASPECT_FIT_PARENT;
     public void setAspectRatio(int aspectRatio) {
         m_currentAspectRatio = aspectRatio;
         updateTextureViewSizeCenterCrop();
     }
     private Matrix getOrgMatrix(){
-        int width = getWidth();
-        int height = getHeight();
+        int width = m_textureView.getWidth();
+        int height = m_textureView.getHeight();
 
         int videoWidth = m_videoWidth;
         int videoHeight = m_videoHeight;
@@ -151,7 +110,6 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
     private float m_orgScaleX;
     private float m_orgScaleY;
 
-    @Override
     public void setVideoSize(int videoWidth, int videoHeight) {
         m_videoWidth = videoWidth;
         m_videoHeight = videoHeight;
@@ -162,7 +120,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
     private float getScale(Matrix matrix){
         Matrix matrix1 = new Matrix();
         matrix1.set(matrix);
-        matrix1.postRotate(-m_rotate_status, getWidth(), getHeight());
+        matrix1.postRotate(-m_rotate_status, m_textureView.getWidth(), m_textureView.getHeight());
         float p[] = new float[9];
         matrix1.getValues(p);
         float sx = p[Matrix.MSCALE_X];
@@ -183,13 +141,13 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
     protected void checkEdge(Matrix matrix, boolean horizontal, boolean vertical) {
         Matrix m = new Matrix();
         m.set(matrix);
-        RectF rect = new RectF(0, 0, getWidth(), getHeight());
+        RectF rect = new RectF(0, 0, m_textureView.getWidth(), m_textureView.getHeight());
         m.mapRect(rect);
 
         float deltaX = 0, deltaY = 0;
 
-        int screenWidth = (int)getWidth();//pview.getHeight();
-        int screenHeight = (int)getHeight();//pview.getWidth();
+        int screenWidth = (int)m_textureView.getWidth();//pview.getHeight();
+        int screenHeight = (int)m_textureView.getHeight();//pview.getWidth();
 
         if (vertical) {
             if (rect.height() < screenHeight) {
@@ -215,9 +173,9 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
         matrix.postTranslate(deltaX, deltaY);
     }
 
-    private OnTouchListener m_touchListener;
-    @Override
-    public void setOnTouchListener(OnTouchListener l) {
+    private View.OnTouchListener m_touchListener;
+
+    public void setOnTouchListener(View.OnTouchListener l) {
         m_touchListener = l;
     }
 
@@ -274,7 +232,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
         @Override
         public void run() {
             if(m_touchListener != null) {
-                m_touchListener.onTouch(VideoTextureView.this, m_event);
+                m_touchListener.onTouch(m_textureView, m_event);
             }
         }
     }
@@ -297,7 +255,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
                 x_down = event.getX();
                 y_down = event.getY();
                 prev.set(x_down, y_down);
-                this.getTransform(savedMatrix);
+                m_textureView.getTransform(savedMatrix);
                 return true;
             case MotionEvent.ACTION_POINTER_DOWN:
                 mode = ZOOM;
@@ -306,7 +264,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
                 oldRotation = rotation(event);
                 midPoint(mid, event);
 
-                this.getTransform(savedMatrix);
+                m_textureView.getTransform(savedMatrix);
 
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -319,12 +277,12 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
                     float scale = newDist / oldDist;
 
                     matrix1.postScale(scale, scale, mid.x, mid.y);// 縮放
-                     checkScale(matrix1, mid);
+                    checkScale(matrix1, mid);
 
                     checkEdge(matrix1,true, true);
                     //matrix.set(matrix1);
-                    setTransform(matrix1);
-                    postInvalidate();
+                    m_textureView.setTransform(matrix1);
+                    m_textureView.postInvalidate();
 
                 } else if (mode == DRAG) {
                     matrix1.set(savedMatrix);
@@ -334,8 +292,8 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
                     matrix1.postTranslate(dx, dy);// 平移
 
                     checkEdge(matrix1,true, true);
-                    setTransform(matrix1);
-                    postInvalidate();
+                    m_textureView.setTransform(matrix1);
+                    m_textureView.postInvalidate();
                 }
 
                 return true;
@@ -375,7 +333,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
     private int m_rotate = 0;
     private int m_rotate_status = 0;
     private void rotate(Matrix matrix, int rotate){
-        matrix.postRotate(rotate, getWidth()/2, getHeight()/2);
+        matrix.postRotate(rotate, m_textureView.getWidth()/2, m_textureView.getHeight()/2);
         checkEdge(matrix,true, true);
     }
 
@@ -383,7 +341,7 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
 
         Matrix matrix = new Matrix();
 
-        getTransform(matrix);
+        m_textureView.getTransform(matrix);
         m_rotate = rotate;
 
         m_rotate_status %= 360;
@@ -397,20 +355,20 @@ public abstract class VideoTextureView extends TextureView implements IRenderVie
         m_rotate_status+= tmp;
         m_rotate_status %= 360;
 
-        setTransform(matrix);
-        postInvalidate();
+        m_textureView.setTransform(matrix);
+        m_textureView.postInvalidate();
     }
 
     private void scale(float scaleX, float scaleY){
 
         Matrix matrix = new Matrix();
-        getTransform(matrix);
+        m_textureView.getTransform(matrix);
 
         PointF middlePoint = new PointF();
-        middlePoint.set(getWidth()/2, getHeight()/2);
+        middlePoint.set(m_textureView.getWidth()/2, m_textureView.getHeight()/2);
         matrix.postScale(scaleX, scaleY, middlePoint.x, middlePoint.y);
         checkScale(matrix, middlePoint);
-        setTransform(matrix);
+        m_textureView.setTransform(matrix);
     }
 
     public void scaleUpView(){

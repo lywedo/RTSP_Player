@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
@@ -42,9 +43,10 @@ import tv.danmaku.ijk.media.player.ISurfaceTextureHolder;
 import tv.danmaku.ijk.media.player.ISurfaceTextureHost;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-public class TextureRenderView extends VideoTextureView {
+public class TextureRenderView extends TextureView implements IRenderView {
     private static final String TAG = "TextureRenderView";
     private MeasureHelper mMeasureHelper;
+    private VideoTextureViewHelper m_helper;
 
     public TextureRenderView(Context context) {
         super(context);
@@ -68,6 +70,8 @@ public class TextureRenderView extends VideoTextureView {
     }
 
     private void initView(Context context) {
+        m_helper = new VideoTextureViewHelper(this);
+
         mMeasureHelper = new MeasureHelper(this);
         mSurfaceCallback = new SurfaceCallback(this);
         setSurfaceTextureListener(mSurfaceCallback);
@@ -90,20 +94,6 @@ public class TextureRenderView extends VideoTextureView {
         mSurfaceCallback.didDetachFromWindow();
     }
 
-    //--------------------
-    // Layout & Measure
-    //--------------------
-    @Override
-    public void setVideoSize(int videoWidth, int videoHeight) {
-        super.setVideoSize(videoWidth, videoHeight);
-        View parentView = (View) getParent();
-
-        if (videoWidth > 0 && videoHeight > 0 && parentView != null) {
-            mMeasureHelper.setVideoSize(parentView.getWidth(), parentView.getHeight());
-            requestLayout();
-        }
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         mMeasureHelper.doMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -122,20 +112,7 @@ public class TextureRenderView extends VideoTextureView {
     @Override
     public void setVideoRotation(int degree) {
         mMeasureHelper.setVideoRotation(degree);
-
-        rotate(degree);
-        //setRotation(degree);
-        //setBaseRotate(degree);//fixme for test sknown
-        //requestLayout();
-    }
-
-    @Override
-    public void setAspectRatio(int aspectRatio) {
-        super.setAspectRatio(aspectRatio);
-
-        mMeasureHelper.setAspectRatio(aspectRatio);
-        //setfullscreen(aspectRatio == AR_ASPECT_FILL_PARENT);//fixme for test sknown
-        //requestLayout();
+        m_helper.rotate(degree);
     }
 
 
@@ -379,5 +356,52 @@ public class TextureRenderView extends VideoTextureView {
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setClassName(TextureRenderView.class.getName());
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        m_helper.updateTextureViewSizeCenterCrop();
+    }
+
+    @Override
+    public void setAspectRatio(int aspectRatio) {
+        m_helper.setAspectRatio(aspectRatio);
+        mMeasureHelper.setAspectRatio(aspectRatio);
+
+    }
+
+    @Override
+    public void setVideoSize(int videoWidth, int videoHeight) {
+        m_helper.setVideoSize(videoWidth, videoHeight);
+
+        View parentView = (View) getParent();
+
+        if (videoWidth > 0 && videoHeight > 0 && parentView != null) {
+            mMeasureHelper.setVideoSize(parentView.getWidth(), parentView.getHeight());
+            requestLayout();
+        }
+    }
+
+    @Override
+    public void setOnTouchListener(OnTouchListener l) {
+        m_helper.setOnTouchListener(l);
+    }
+
+    public void setScaleEnable(boolean enable){
+        m_helper.setScaleEnable(enable);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return m_helper.onTouchEvent(event);
+    }
+
+    public void scaleUpView(){
+        m_helper.scaleUpView();
+    }
+
+    public void scaleDownView(){
+        m_helper.scaleDownView();
     }
 }
